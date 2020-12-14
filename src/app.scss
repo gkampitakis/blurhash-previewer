@@ -1,0 +1,23 @@
+.control_panel {
+  flex: 1;
+  text-align: center;
+}
+
+.image_previewer {
+  flex: 2;
+  display: grid;
+  grid-template-rows: 50% 50%;
+  row-gap: 1rem;
+
+  .original {
+    height: 100%;
+  }
+
+  .img_container {
+    text-align: center;
+    height: 100%;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  }
+}

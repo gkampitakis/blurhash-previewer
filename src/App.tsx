@@ -1,10 +1,19 @@
 import React from 'react';
+import ControlPanel from './components/ControlPanel';
+import ImagePreviewer from './components/ImagePreviewer';
+import Navbar from './components/Navbar';
+import { AppProvider } from './context';
+import './app.scss';
 
 function App () {
   return (
-    <div className="App">
-      Blurhash Preview
-    </div>
+    <main className="app">
+      <AppProvider>
+        <Navbar />
+        <ControlPanel />
+        <ImagePreviewer />
+      </AppProvider>
+    </main>
   );
 }
 
