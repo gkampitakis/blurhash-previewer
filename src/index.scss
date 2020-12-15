@@ -16,6 +16,7 @@ body {
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 1.5;
   font-size: 0.875rem;
+  height: 100vh;
 }
 
 button {
@@ -83,7 +84,6 @@ p {
 }
 
 .app {
-  height: 81vh;
   display: flex;
   flex-direction: column;
 }

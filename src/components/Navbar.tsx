@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Navbar (): ReactElement {
   return (
@@ -6,8 +7,8 @@ export default function Navbar (): ReactElement {
       <div>
         <h1>Blurhash Previewer</h1>
         <ul>
-          <li><a href="">Home</a></li>
-          <li><a href="">Info</a></li>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">Info</Link></li>
         </ul>
       </div>
     </nav>
