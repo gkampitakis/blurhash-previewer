@@ -10,8 +10,10 @@ function App () {
     <main className="app">
       <AppProvider>
         <Navbar />
-        <ControlPanel />
-        <ImagePreviewer />
+        <div className="main_container">
+          <ControlPanel />
+          <ImagePreviewer />
+        </div>
       </AppProvider>
     </main>
   );

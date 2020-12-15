@@ -3,21 +3,21 @@ import React, { createContext, ReactElement, useContext, useReducer } from 'reac
 const AppContext = createContext<DispatchActions & AppState>({} as any);
 
 type Action =
-  | { type: 'CHANGE_WIDTH', payload: { value: string } }
-  | { type: 'CHANGE_HEIGHT', payload: { value: string } }
+  | { type: 'CHANGE_WIDTH', payload: { value: string; metric: 'px' | '%' } }
+  | { type: 'CHANGE_HEIGHT', payload: { value: string; metric: 'px' | '%' } }
   | { type: 'CHANGE_IMAGE', payload: { value: string } };
 
 interface DispatchActions {
-  changeWidth: (value: string) => void;
-  changeHeight: (value: string) => void;
+  changeWidth: (value: string, metric: 'px' | '%') => void;
+  changeHeight: (value: string, metric: 'px' | '%') => void;
   changeImage: (value: string) => void;
 }
 
 interface AppState {
   blurhash: string;
   sourceUrl: string;
-  width: string;
-  height: string;
+  width: { value: string, metric: 'px' | '%' };
+  height: { value: string, metric: 'px' | '%' };
   resolutionY: number;
   resolutionX: number;
   punch: number;
@@ -25,8 +25,8 @@ interface AppState {
 
 export const AppProvider = ({ children }: { children: ReactElement | ReactElement[] }): ReactElement => {
   const [appState, dispatch] = useReducer(appReducer, {
-    width: '50', //TODO: add validation here up to 100 and up to zero
-    height: '100',
+    width: { value: '50', metric: '%' }, //TODO: here hardcode the width of the default image
+    height: { value: '100', metric: '%' },
     resolutionY: 100,
     resolutionX: 100,
     punch: 1,
@@ -35,12 +35,12 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
   });
 
 
-  function changeWidth (value: string) {
-    dispatch({ type: 'CHANGE_WIDTH', payload: { value } });
+  function changeWidth (value: string, metric: 'px' | '%') {
+    dispatch({ type: 'CHANGE_WIDTH', payload: { value: value, metric: metric } });
   }
 
-  function changeHeight (value: string) {
-    dispatch({ type: 'CHANGE_HEIGHT', payload: { value } });
+  function changeHeight (value: string, metric: 'px' | '%') {
+    dispatch({ type: 'CHANGE_HEIGHT', payload: { value, metric: metric } });
   }
 
   function changeImage (value: string) {
@@ -60,16 +60,16 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
 };
 
 function appReducer (state: AppState, action: Action): AppState {
-  switch (action.type) { //NOTE: those values here can be merged and have dynamic field
+  switch (action.type) {
     case 'CHANGE_HEIGHT':
       return {
         ...state,
-        height: action.payload.value
+        height: action.payload
       }
     case 'CHANGE_WIDTH':
       return {
         ...state,
-        width: action.payload.value
+        width: action.payload
       }
     case 'CHANGE_IMAGE':
       return {
@@ -82,3 +82,5 @@ function appReducer (state: AppState, action: Action): AppState {
 }
 
 export const useGlobalContext = () => useContext(AppContext);
+
+// NOTE: do we need useCallback in the functions
