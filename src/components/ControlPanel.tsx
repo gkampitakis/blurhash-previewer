@@ -1,14 +1,13 @@
-import React, { ReactElement, useRef } from 'react';
+import React, { ReactElement, useRef, useState } from 'react';
+import { BiCopy } from 'react-icons/bi';
 import { useGlobalContext } from '../context';
-import { encodeImageToBlurhash } from '../blurhash';
+import { isBlurhashValid } from '../blurhash';
 
 export default function ControlPanel (): ReactElement {
-  const { width, height, blurhash, punch, resolutionX, resolutionY, changeImage, changeHeight, changeWidth } = useGlobalContext();
+  const { width, height, blurhash, setBlurhash, punch, resolutionX, resolutionY, changeImage, changeHeight, changeWidth } = useGlobalContext();
   const uploadInput = useRef<HTMLInputElement>(null);
-  //TODO: add here validation and parsing
-  //TODO: it could be a slider
-  //TODO: add validation on blurhash input and add copy button
-  //TODO: add tooltip for descriptions as well
+  const [validHash, setValidHash] = useState(true);
+  const [inputHash, setInputHash] = useState(blurhash);
 
   function uploadImage (e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -28,6 +27,22 @@ export default function ControlPanel (): ReactElement {
 
   function triggerInput () {
     uploadInput.current?.click();
+  }
+
+  function blurhashInput (e: React.ChangeEvent<HTMLInputElement>) {
+    const hashValue = e.target.value;
+    setInputHash(hashValue);
+
+    const isValid = isBlurhashValid(hashValue).result;
+    setValidHash(_ => isValid);
+
+    if (isValid) setBlurhash(hashValue);
+  }
+
+  function copy2Clipboard () {
+    navigator.clipboard.writeText(inputHash)
+      .then(console.log)
+      .catch(console.error);
   }
 
   return (
@@ -57,10 +72,12 @@ export default function ControlPanel (): ReactElement {
         <div className="cp_container">
           <div className="blurhash-wrapper">
             <input
-              value={blurhash}
+              value={inputHash}
               type="text"
-              className="valid"
+              className={`${validHash ? 'valid' : 'invalid'}`}
+              onChange={blurhashInput}
             />
+            <BiCopy onClick={copy2Clipboard} />
           </div>
         </div>
         <div className="cp_container">
@@ -83,6 +100,3 @@ export default function ControlPanel (): ReactElement {
     </section>
   );
 }
-
-//BUG: with image width
-//BUG: with unusable ui on image calculation

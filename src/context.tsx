@@ -1,7 +1,10 @@
-import React, { createContext, ReactElement, useContext, useEffect, useReducer } from 'react';
+import React, { createContext, ReactElement, useContext, useEffect, useReducer, useState } from 'react';
 import { encodeImageToBlurhash } from './blurhash';
 
-const AppContext = createContext<DispatchActions & AppState>({} as any);
+const AppContext = createContext<DispatchActions & AppState & {
+  blurhash: string;
+  setBlurhash: React.Dispatch<React.SetStateAction<string>>
+}>({} as any);
 
 type Action =
   | { type: 'CHANGE_WIDTH', payload: { value: string; metric: 'px' | '%' } }
@@ -15,7 +18,6 @@ interface DispatchActions {
 }
 
 interface AppState {
-  blurhash: string;
   sourceUrl: string;
   width: { value: string, metric: 'px' | '%' };
   height: { value: string, metric: 'px' | '%' };
@@ -25,13 +27,13 @@ interface AppState {
 }
 
 export const AppProvider = ({ children }: { children: ReactElement | ReactElement[] }): ReactElement => {
+  const [blurhash, setBlurhash] = useState('LHC$r{E2D*M{~VM{aeRk^*RjNHxa');
   const [appState, dispatch] = useReducer(appReducer, {
     width: { value: '50', metric: '%' }, //TODO: here hardcode the width of the default image
     height: { value: '100', metric: '%' },
     resolutionY: 100,
     resolutionX: 100,
     punch: 1,
-    blurhash: 'LHC$r{E2D*M{~VM{aeRk^*RjNHxa',
     sourceUrl: 'https://images.unsplash.com/photo-1606851179426-eff6bb16ef41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxODUwMjV8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=1080'
   });
 
@@ -50,6 +52,8 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
   return (
     <AppContext.Provider value={{
       ...appState,
+      blurhash,
+      setBlurhash,
       changeWidth,
       changeHeight,
       changeImage

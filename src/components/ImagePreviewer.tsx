@@ -4,13 +4,13 @@ import HashedImage from './HashedImage';
 
 export default function ImagePreviewer (): ReactElement {
   const { sourceUrl, changeWidth } = useGlobalContext();
-  const imageRef = useRef<any>('');
+  const imageRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    const imageWidth = imageRef.current.clientWidth;
-    if (imageRef.current.clientWidth)
-      changeWidth(imageWidth, 'px');
-  }, [sourceUrl]);
+    const imageWidth = imageRef.current?.clientWidth;
+    if (imageWidth)
+      changeWidth(imageWidth?.toString(), 'px');
+  }, [sourceUrl]); //FIXME:
 
   return (
     <section className="image_previewer">

@@ -25,5 +25,3 @@ export const encodeImageToBlurhash = async (imageUrl: string) => {
 };
 
 export { isBlurhashValid }; 
-
-//NOTE: find ways of optimizing it
