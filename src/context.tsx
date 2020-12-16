@@ -1,4 +1,5 @@
-import React, { createContext, ReactElement, useContext, useReducer } from 'react';
+import React, { createContext, ReactElement, useContext, useEffect, useReducer } from 'react';
+import { encodeImageToBlurhash } from './blurhash';
 
 const AppContext = createContext<DispatchActions & AppState>({} as any);
 
@@ -8,9 +9,9 @@ type Action =
   | { type: 'CHANGE_IMAGE', payload: { value: string } };
 
 interface DispatchActions {
-  changeWidth: (value: string, metric: 'px' | '%') => void;
-  changeHeight: (value: string, metric: 'px' | '%') => void;
-  changeImage: (value: string) => void;
+  changeWidth: (width: string, metric: 'px' | '%') => void;
+  changeHeight: (height: string, metric: 'px' | '%') => void;
+  changeImage: (url: string) => void;
 }
 
 interface AppState {
@@ -33,7 +34,6 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
     blurhash: 'LHC$r{E2D*M{~VM{aeRk^*RjNHxa',
     sourceUrl: 'https://images.unsplash.com/photo-1606851179426-eff6bb16ef41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxODUwMjV8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=1080'
   });
-
 
   function changeWidth (value: string, metric: 'px' | '%') {
     dispatch({ type: 'CHANGE_WIDTH', payload: { value: value, metric: metric } });

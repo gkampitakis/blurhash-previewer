@@ -13,6 +13,7 @@ export default function HashedImage (): ReactElement {
         height={`${height.value}${height.metric}`}
         resolutionX={resolutionX}
         resolutionY={resolutionY}
+        style={{ maxWidth: '100%' }}
         punch={punch}
       />
     </div>

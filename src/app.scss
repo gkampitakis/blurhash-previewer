@@ -8,7 +8,64 @@
 .control_panel {
   flex: 2;
   text-align: center;
+  .center {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    .upload {
+      display: none;
+    }
+
+    .upload-btn {
+      background: blue;
+      color: white;
+      letter-spacing: 5px;
+      border-radius: 3px;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      border-color: transparent;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+      &:active {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .blurhash-wrapper {
+      margin: 0 auto;
+      width: 30%;
+      padding: 2rem;
+      border-radius: 3px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s linear;
+
+      &:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      input {
+        width: 100%;
+        &.valid {
+          color: blue;
+        }
+
+        &.invalid {
+          color: red;
+        }
+        border: transparent;
+        &:active,
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
 }
+
+//TODO: break to reusable css
 
 .image_previewer {
   flex: 2;
@@ -18,11 +75,11 @@
 
   .original {
     height: 100%;
+    max-width: 100%;
   }
 
-  //NOTE: add radius on blurhash as well
-
   .img_container {
+    max-width: 50vw;
     text-align: center;
     height: 100%;
     background: #fff;
