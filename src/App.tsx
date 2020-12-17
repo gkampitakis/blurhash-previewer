@@ -8,6 +8,8 @@ import {
   Route
 } from 'react-router-dom';
 import './app.scss';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const About = lazy(() => import('./Pages/About'));
 
 function App () {
@@ -15,6 +17,7 @@ function App () {
     <main className="app">
       <AppProvider>
         <Router>
+          <ToastContainer />
           <Navbar />
           <Switch>
             <Route exact path='/' component={Home} />

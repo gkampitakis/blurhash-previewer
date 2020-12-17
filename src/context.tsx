@@ -7,14 +7,20 @@ const AppContext = createContext<DispatchActions & AppState & {
 }>({} as any);
 
 type Action =
+  | { type: 'CHANGE_IMAGE', payload: { value: string } }
+  | { type: 'CHANGE_PUNCH', payload: { value: number } }
   | { type: 'CHANGE_WIDTH', payload: { value: string; metric: 'px' | '%' } }
   | { type: 'CHANGE_HEIGHT', payload: { value: string; metric: 'px' | '%' } }
-  | { type: 'CHANGE_IMAGE', payload: { value: string } };
+  | { type: 'CHANGE_COMPONENT', payload: { value: number; type: 'X' | 'Y' } }
+  | { type: 'CHANGE_RESOLUTION', payload: { value: number; type: 'X' | 'Y' } };
 
 interface DispatchActions {
+  changeImage: (url: string) => void;
+  changePunch: (value: number) => void;
   changeWidth: (width: string, metric: 'px' | '%') => void;
   changeHeight: (height: string, metric: 'px' | '%') => void;
-  changeImage: (url: string) => void;
+  changeComponent: (value: number, type: 'X' | 'Y') => void;
+  changeResolution: (value: number, type: 'X' | 'Y') => void;
 }
 
 interface AppState {
@@ -23,6 +29,8 @@ interface AppState {
   height: { value: string, metric: 'px' | '%' };
   resolutionY: number;
   resolutionX: number;
+  componentX: number;
+  componentY: number;
   punch: number;
 }
 
@@ -33,6 +41,8 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
     height: { value: '100', metric: '%' },
     resolutionY: 100,
     resolutionX: 100,
+    componentX: 4,
+    componentY: 4,
     punch: 1,
     sourceUrl: 'https://images.unsplash.com/photo-1606851179426-eff6bb16ef41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxODUwMjV8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=1080'
   });
@@ -49,6 +59,30 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
     dispatch({ type: 'CHANGE_IMAGE', payload: { value } });
   }
 
+  function changeResolution (value: number, type: 'X' | 'Y') {
+    dispatch({
+      type: 'CHANGE_RESOLUTION',
+      payload: {
+        value,
+        type
+      }
+    });
+  }
+
+  function changeComponent (value: number, type: 'X' | 'Y') {
+    dispatch({
+      type: 'CHANGE_COMPONENT',
+      payload: {
+        value,
+        type
+      }
+    });
+  }
+
+  function changePunch (value: number) {
+    dispatch({ type: 'CHANGE_PUNCH', payload: { value } });
+  }
+
   return (
     <AppContext.Provider value={{
       ...appState,
@@ -56,7 +90,10 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
       setBlurhash,
       changeWidth,
       changeHeight,
-      changeImage
+      changeImage,
+      changePunch,
+      changeResolution,
+      changeComponent
     }}>
       { children}
     </AppContext.Provider>
@@ -69,17 +106,32 @@ function appReducer (state: AppState, action: Action): AppState {
       return {
         ...state,
         height: action.payload
-      }
+      };
     case 'CHANGE_WIDTH':
       return {
         ...state,
         width: action.payload
-      }
+      };
     case 'CHANGE_IMAGE':
       return {
         ...state,
         sourceUrl: action.payload.value
-      }
+      };
+    case 'CHANGE_RESOLUTION':
+      return {
+        ...state,
+        [`resolution${action.payload.type}`]: action.payload.value
+      };
+    case 'CHANGE_COMPONENT':
+      return {
+        ...state,
+        [`component${action.payload.type}`]: action.payload.value
+      };
+    case 'CHANGE_PUNCH':
+      return {
+        ...state,
+        punch: action.payload.value
+      };
     default:
       throw Error('Reached to unknown state in reducer');
   }
