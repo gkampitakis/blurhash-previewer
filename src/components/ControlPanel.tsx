@@ -1,4 +1,4 @@
-import React, { ReactElement, useRef, useState, Dispatch } from 'react';
+import React, { ReactElement, useRef, useState, Dispatch, useEffect } from 'react';
 import { BiCopy } from 'react-icons/bi';
 import { useGlobalContext } from '../context';
 import { isBlurhashValid } from '../blurhash';
@@ -27,6 +27,7 @@ const erred = (msg: string, cb: Dispatch<React.SetStateAction<boolean>>) => toas
 export default function ControlPanel (): ReactElement {
   const {
     width,
+    loading,
     height,
     punch,
     blurhash,
@@ -35,7 +36,8 @@ export default function ControlPanel (): ReactElement {
     componentX,
     componentY,
     setBlurhash,
-    changeImage,
+    setEdit,
+    setUrl,
     changePunch,
     changeWidth,
     changeHeight,
@@ -47,6 +49,10 @@ export default function ControlPanel (): ReactElement {
   const [inputHash, setInputHash] = useState(blurhash);
   const [isToastShown, setIsToastShown] = useState(false);
 
+  useEffect(() => {
+    setInputHash(blurhash);
+  }, [blurhash]);
+
   function uploadImage (e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
 
@@ -54,11 +60,8 @@ export default function ControlPanel (): ReactElement {
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      changeImage(reader.result as string);
-      // (async () => {
-      //   console.log(await encodeImageToBlurhash(reader.result as string));
-      // })();
-
+      setUrl(reader.result as string);
+      setEdit(true);
     }
     reader.readAsDataURL(file)
   }
@@ -88,94 +91,96 @@ export default function ControlPanel (): ReactElement {
   }
 
   return (
-    <section className="control_panel">
-      <h2>Control Panel</h2>
-      <div className="center">
-        <div className="cp_container">
-          <div>
-            <label htmlFor="width">Width</label>
-            <input
-              id="width"
-              type="range"
-              min="0"
-              max="100"
-              onChange={(e) => changeWidth(e.target.value, '%')}
-              value={width.value}
-            />
+    <>
+      {!loading && <section className="control_panel">
+        <h2>Control Panel</h2>
+        <div className="center">
+          <div className="cp_container">
+            <div>
+              <label htmlFor="width">Width</label>
+              <input
+                id="width"
+                type="range"
+                min="0"
+                max="100"
+                onChange={(e) => changeWidth(e.target.value, '%')}
+                value={width.value}
+              />
+            </div>
+            <div>
+              <label htmlFor="height">Height</label>
+              <input
+                id="height"
+                type="range"
+                min="0"
+                max="100"
+                value={height.value}
+                onChange={(e) => changeHeight(e.target.value, '%')}
+              />
+            </div>
+            <div>
+              <label htmlFor="resolutionX">ResolutionX</label>
+              <input
+                id="resolutionX"
+                type="text"
+                value={resolutionX}
+                onChange={(e) => changeResolution(parseInt(e.target.value), 'X')}
+              />
+            </div>
+            <div>
+              <label htmlFor="resolutionY">ResolutionY</label>
+              <input
+                id="resolutionY"
+                type="text"
+                value={resolutionY}
+                onChange={(e) => changeResolution(parseInt(e.target.value), 'Y')}
+              />
+            </div>
+            <div>
+              <label htmlFor="punch">Punch</label>
+              <input
+                id="punch"
+                type="text"
+                value={punch}
+                onChange={(e) => changePunch(parseInt(e.target.value))}
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="height">Height</label>
-            <input
-              id="height"
-              type="range"
-              min="0"
-              max="100"
-              value={height.value}
-              onChange={(e) => changeHeight(e.target.value, '%')}
-            />
+          <div className="cp_container">
+            <div className="blurhash-wrapper">
+              <input
+                value={inputHash}
+                type="text"
+                className={`${validHash ? 'valid' : 'invalid'}`}
+                onChange={blurhashInput}
+              />
+              <BiCopy onClick={copy2Clipboard} />
+            </div>
           </div>
-          <div>
-            <label htmlFor="resolutionX">ResolutionX</label>
+          <div className="cp_container">
             <input
-              id="resolutionX"
+              id="componentX"
               type="text"
-              value={resolutionX}
-              onChange={(e) => changeResolution(parseInt(e.target.value), 'X')}
+              value={componentX}
+              onChange={(e) => changeComponent(parseInt(e.target.value), 'X')}
             />
-          </div>
-          <div>
-            <label htmlFor="resolutionY">ResolutionY</label>
             <input
-              id="resolutionY"
+              id="componentY"
               type="text"
-              value={resolutionY}
-              onChange={(e) => changeResolution(parseInt(e.target.value), 'Y')}
+              value={componentY}
+              onChange={(e) => changeComponent(parseInt(e.target.value), 'Y')}
             />
-          </div>
-          <div>
-            <label htmlFor="punch">Punch</label>
             <input
-              id="punch"
-              type="text"
-              value={punch}
-              onChange={(e) => changePunch(parseInt(e.target.value))}
+              ref={uploadInput}
+              className="upload"
+              type="file"
+              accept="image/*"
+              onChange={uploadImage}
             />
+            <button className="upload-btn" onClick={triggerInput}>Upload</button>
           </div>
         </div>
-        <div className="cp_container">
-          <div className="blurhash-wrapper">
-            <input
-              value={inputHash}
-              type="text"
-              className={`${validHash ? 'valid' : 'invalid'}`}
-              onChange={blurhashInput}
-            />
-            <BiCopy onClick={copy2Clipboard} />
-          </div>
-        </div>
-        <div className="cp_container">
-          <input
-            id="componentX"
-            type="text"
-            value={componentX}
-            onChange={(e) => changeComponent(parseInt(e.target.value), 'X')}
-          />
-          <input
-            id="componentY"
-            type="text"
-            value={componentY}
-            onChange={(e) => changeComponent(parseInt(e.target.value), 'Y')}
-          />
-          <input
-            ref={uploadInput}
-            className="upload"
-            type="file"
-            accept="image/*"
-            onChange={uploadImage}
-          />
-          <button className="upload-btn" onClick={triggerInput}>Upload</button>
-        </div>
-      </div>
-    </section>
+      </section>}
+    </>
   );
 }

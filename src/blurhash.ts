@@ -10,7 +10,7 @@ const loadImage = async (src: string): Promise<HTMLImageElement> =>
   });
 
 const getImageData = (image: CanvasImageSource) => {
-  const canvas = document.getElementById("demo-canvas") as HTMLCanvasElement;
+  const canvas = document.createElement("canvas");
   canvas.width = image.width as number;
   canvas.height = image.height as number;
   const context = canvas.getContext("2d");
@@ -18,10 +18,11 @@ const getImageData = (image: CanvasImageSource) => {
   return context!.getImageData(0, 0, image.width as number, image.height as number);
 };
 
-export const encodeImageToBlurhash = async (imageUrl: string) => {
+export const encodeImageToBlurhash = async (imageUrl: string, componentX: number, componentY: number) => {
   const image = await loadImage(imageUrl);
   const imageData = getImageData(image);
-  return encode(imageData.data, imageData.width, imageData.height, 4, 4);
+
+  return encode(imageData.data, imageData.width, imageData.height, componentX, componentY);
 };
 
 export { isBlurhashValid }; 

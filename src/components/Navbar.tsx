@@ -1,7 +1,7 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, memo } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Navbar (): ReactElement {
+function Navbar (): ReactElement {
   return (
     <nav className="navbar">
       <div>
@@ -14,3 +14,5 @@ export default function Navbar (): ReactElement {
     </nav>
   );
 }
+
+export default memo(Navbar);

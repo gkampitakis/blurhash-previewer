@@ -5,6 +5,9 @@ import { useGlobalContext } from '../context';
 export default function HashedImage (): ReactElement {
   const { blurhash, width, height, resolutionY, resolutionX, punch } = useGlobalContext();
 
+  console.log(blurhash);
+  
+
   return (
     <div className="img_container">
       <Blurhash

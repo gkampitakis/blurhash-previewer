@@ -1,13 +1,25 @@
-import React, { createContext, ReactElement, useContext, useEffect, useReducer, useState } from 'react';
+import React, {
+  createContext,
+  ReactElement,
+  useContext,
+  useReducer,
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction
+} from 'react';
 import { encodeImageToBlurhash } from './blurhash';
 
 const AppContext = createContext<DispatchActions & AppState & {
   blurhash: string;
-  setBlurhash: React.Dispatch<React.SetStateAction<string>>
+  loading: boolean;
+  url: string;
+  setUrl: Dispatch<SetStateAction<string>>;
+  setEdit: Dispatch<SetStateAction<boolean>>;
+  setBlurhash: Dispatch<SetStateAction<string>>
 }>({} as any);
 
 type Action =
-  | { type: 'CHANGE_IMAGE', payload: { value: string } }
   | { type: 'CHANGE_PUNCH', payload: { value: number } }
   | { type: 'CHANGE_WIDTH', payload: { value: string; metric: 'px' | '%' } }
   | { type: 'CHANGE_HEIGHT', payload: { value: string; metric: 'px' | '%' } }
@@ -15,7 +27,6 @@ type Action =
   | { type: 'CHANGE_RESOLUTION', payload: { value: number; type: 'X' | 'Y' } };
 
 interface DispatchActions {
-  changeImage: (url: string) => void;
   changePunch: (value: number) => void;
   changeWidth: (width: string, metric: 'px' | '%') => void;
   changeHeight: (height: string, metric: 'px' | '%') => void;
@@ -24,7 +35,6 @@ interface DispatchActions {
 }
 
 interface AppState {
-  sourceUrl: string;
   width: { value: string, metric: 'px' | '%' };
   height: { value: string, metric: 'px' | '%' };
   resolutionY: number;
@@ -36,6 +46,9 @@ interface AppState {
 
 export const AppProvider = ({ children }: { children: ReactElement | ReactElement[] }): ReactElement => {
   const [blurhash, setBlurhash] = useState('LHC$r{E2D*M{~VM{aeRk^*RjNHxa');
+  const [loading, setLoading] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [url, setUrl] = useState('https://images.unsplash.com/photo-1606851179426-eff6bb16ef41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxODUwMjV8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=1080');
   const [appState, dispatch] = useReducer(appReducer, {
     width: { value: '50', metric: '%' }, //TODO: here hardcode the width of the default image
     height: { value: '100', metric: '%' },
@@ -43,8 +56,7 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
     resolutionX: 100,
     componentX: 4,
     componentY: 4,
-    punch: 1,
-    sourceUrl: 'https://images.unsplash.com/photo-1606851179426-eff6bb16ef41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxODUwMjV8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=1080'
+    punch: 1
   });
 
   function changeWidth (value: string, metric: 'px' | '%') {
@@ -53,10 +65,6 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
 
   function changeHeight (value: string, metric: 'px' | '%') {
     dispatch({ type: 'CHANGE_HEIGHT', payload: { value, metric: metric } });
-  }
-
-  function changeImage (value: string) {
-    dispatch({ type: 'CHANGE_IMAGE', payload: { value } });
   }
 
   function changeResolution (value: number, type: 'X' | 'Y') {
@@ -83,14 +91,30 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
     dispatch({ type: 'CHANGE_PUNCH', payload: { value } });
   }
 
+  useEffect(() => {
+    async function encodeWrapper () {
+      setLoading(true);
+      const hash = await encodeImageToBlurhash(url, appState.componentX, appState.componentY);
+
+      setBlurhash(hash);
+      setLoading(false);
+      setEdit(false);
+    }
+
+    if (edit) encodeWrapper();
+  }, [url, appState.componentX, appState.componentY, edit]);
+
   return (
     <AppContext.Provider value={{
       ...appState,
+      url,
+      loading,
       blurhash,
+      setUrl,
+      setEdit,
       setBlurhash,
       changeWidth,
       changeHeight,
-      changeImage,
       changePunch,
       changeResolution,
       changeComponent
@@ -111,11 +135,6 @@ function appReducer (state: AppState, action: Action): AppState {
       return {
         ...state,
         width: action.payload
-      };
-    case 'CHANGE_IMAGE':
-      return {
-        ...state,
-        sourceUrl: action.payload.value
       };
     case 'CHANGE_RESOLUTION':
       return {
