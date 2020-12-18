@@ -34,19 +34,23 @@ export default function UploadInput ({
   }
 
   return (
-    <article>
-      <input
-        id="componentX"
-        type="text"
-        value={componentX}
-        onChange={(e) => changeComponent(parseInt(e.target.value), 'X')}
-      />
-      <input
-        id="componentY"
-        type="text"
-        value={componentY}
-        onChange={(e) => changeComponent(parseInt(e.target.value), 'Y')}
-      />
+    <article className="upload-input">
+      <div className="components">
+        <p className="title">Components</p>
+        <input
+          id="componentX"
+          type="text"
+          value={componentX}
+          onChange={(e) => changeComponent(parseInt(e.target.value), 'X')}
+        />
+        <p>x</p>
+        <input
+          id="componentY"
+          type="text"
+          value={componentY}
+          onChange={(e) => changeComponent(parseInt(e.target.value), 'Y')}
+        />
+      </div>
       <input
         ref={uploadInput}
         className="upload"

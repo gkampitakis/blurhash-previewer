@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 .main_container {
   display: flex;
   flex-direction: row;
@@ -14,32 +16,14 @@
     flex-direction: column;
     justify-content: space-evenly;
 
-    .upload {
-      display: none;
-    }
-
-    .upload-btn {
-      background: blue;
-      color: white;
-      letter-spacing: 5px;
-      border-radius: 3px;
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 0.5rem 1rem;
-      border-color: transparent;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-
-      &:active {
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      }
-    }
-
-    .blurhash-wrapper {
+    .blurhash-input {
+      background: white;
       display: flex;
+      align-items: center;
       margin: 0 auto;
+      height: 8vh;
+      border-radius: $input-radius;
       width: 40%;
-      padding: 2rem 1.5rem;
-      border-radius: 3px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       transition: all 0.2s linear;
 
@@ -48,6 +32,7 @@
       }
 
       svg {
+        margin-right: 10px;
         font-size: 2rem;
         cursor: pointer;
       }
@@ -55,6 +40,8 @@
       input {
         font-size: 1rem;
         margin-right: 1rem;
+        padding: 0 0 0 1.5rem;
+        border-radius: $input-radius;
         width: 100%;
         &.valid {
           color: blue;
@@ -70,10 +57,80 @@
         }
       }
     }
+
+    .upload-input {
+      .upload {
+        display: none;
+      }
+
+      .upload-btn {
+        background: blue;
+        color: white;
+        width: 20vh;
+        letter-spacing: 5px;
+        font-weight: 700;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        border-color: transparent;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        $transition: all 0.2s linear;
+
+        &:active {
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+      }
+
+      .components {
+        .title {
+          display: block;
+          margin: auto;
+          font-size: unset;
+        }
+        margin: 1rem;
+        input {
+          text-align: center;
+          font-size: 1rem;
+          width: 50px;
+          height: 50px;
+        }
+
+        p {
+          display: inline;
+          font-size: 1.2rem;
+          margin: 1rem;
+        }
+      }
+    }
+
+    .cp_container.url-input {
+      position: relative;
+      width: 60%;
+      margin: 0 auto;
+
+      label {
+        display: block;
+        // width: 50%;
+        margin: 0 auto;
+        color: hsl(210, 22%, 49%);
+      }
+
+      input {
+        width: 100%;
+        padding: 0 0.5rem;
+        height: 30px;
+        font-size: 0.9rem;
+      }
+
+      svg {
+        color: blue;
+        right: 10px;
+        top: 30px;
+        font-size: 1rem;
+        position: absolute;
+      }
+    }
   }
 }
-
-//TODO: break to reusable css
 
 .image_previewer {
   flex: 2;
@@ -103,7 +160,9 @@
 }
 
 .navbar {
-  background: grey;
+  background: white;
+  border-bottom: 1px solid #bdbdbd;
+  box-shadow: 0px 1px 8px 1px rgba(0, 0, 0, 0.1);
   div {
     margin: auto 2rem;
     justify-content: space-between;

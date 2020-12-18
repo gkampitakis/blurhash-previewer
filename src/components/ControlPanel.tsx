@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
 import BlurhashInput from './BlurhashInput';
 import UploadInput from './UploadInput';
 import { useGlobalContext } from '../context';
 
 export default function ControlPanel () {
+  const [externalURL, setExternalUrl] = useState('');
   const {
     width,
     loading,
@@ -27,7 +29,6 @@ export default function ControlPanel () {
   return (
     <>
       {!loading && <section className="control_panel">
-        <h2>Control Panel</h2>
         <div className="center">
           <div className="cp_container">
             <div>
@@ -93,6 +94,18 @@ export default function ControlPanel () {
               componentY={componentY}
               setEdit={setEdit}
               setUrl={setUrl}
+            />
+          </div>
+          <div className="cp_container url-input">
+            <label htmlFor="external-url">External URL</label>
+            {externalURL && <FaSearch />}
+            <input
+              id="external-url"
+              type="text"
+              placeholder={'https://bit.ly/2K8rTHr'}
+              value={externalURL}
+              onChange={(e) => setExternalUrl(e.target.value)}
+              // TODO: break it into a component and add validation
             />
           </div>
         </div>

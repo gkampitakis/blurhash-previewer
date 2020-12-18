@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 /*
 ===========
 Global styles
@@ -17,6 +19,16 @@ body {
   line-height: 1.5;
   font-size: 0.875rem;
   height: 100vh;
+  background: $background;
+}
+
+input[type='text'] {
+  border-radius: $input-radius;
+  border-color: transparent;
+}
+
+svg {
+  cursor: pointer;
 }
 
 button {

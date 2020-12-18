@@ -38,7 +38,7 @@ export default function BlurhashInput ({ blurhash, setBlurhash }: BlurhashInputP
   }
 
   return (
-    <article className="blurhash-wrapper">
+    <div className="blurhash-input">
       <input
         value={inputHash}
         type="text"
@@ -46,7 +46,7 @@ export default function BlurhashInput ({ blurhash, setBlurhash }: BlurhashInputP
         onChange={blurhashInput}
       />
       <BiCopy onClick={copy2Clipboard} />
-    </article>
+    </div>
   )
 }
 
