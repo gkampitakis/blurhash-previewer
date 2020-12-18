@@ -45,12 +45,12 @@ interface AppState {
 }
 
 export const AppProvider = ({ children }: { children: ReactElement | ReactElement[] }): ReactElement => {
-  const [blurhash, setBlurhash] = useState('LHC$r{E2D*M{~VM{aeRk^*RjNHxa');
+  const [blurhash, setBlurhash] = useState('LPKBm@t6.TR*$yROxaoeI@aeVrV@');
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [url, setUrl] = useState('https://images.unsplash.com/photo-1606851179426-eff6bb16ef41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxODUwMjV8MXwxfGFsbHwxfHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=1080');
+  const [url, setUrl] = useState('https://images.unsplash.com/photo-1608070734841-1047b8c36726?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxODUwMjV8MHwxfGFsbHw4fHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=1080');
   const [appState, dispatch] = useReducer(appReducer, {
-    width: { value: '50', metric: '%' }, //TODO: here hardcode the width of the default image
+    width: { value: '50', metric: '%' },
     height: { value: '100', metric: '%' },
     resolutionY: 100,
     resolutionX: 100,
@@ -59,7 +59,7 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
     punch: 1
   });
 
-  function changeWidth (value: string, metric: 'px' | '%') {
+  function changeWidth (value: string, metric: 'px' | '%') {    
     dispatch({ type: 'CHANGE_WIDTH', payload: { value: value, metric: metric } });
   }
 

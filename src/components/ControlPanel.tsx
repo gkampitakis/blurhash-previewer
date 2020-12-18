@@ -1,30 +1,9 @@
-import React, { ReactElement, useRef, useState, Dispatch, useEffect } from 'react';
-import { BiCopy } from 'react-icons/bi';
+import React from 'react';
+import BlurhashInput from './BlurhashInput';
+import UploadInput from './UploadInput';
 import { useGlobalContext } from '../context';
-import { isBlurhashValid } from '../blurhash';
-import { toast } from 'react-toastify';
 
-const copied = (cb: Dispatch<React.SetStateAction<boolean>>) => toast('Copied to clipboard', {
-  position: 'bottom-center',
-  autoClose: 3000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  onClose: () => cb(false)
-});
-
-const erred = (msg: string, cb: Dispatch<React.SetStateAction<boolean>>) => toast(`😵 ${msg}`, {
-  position: 'bottom-center',
-  autoClose: 3000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  onClose: () => cb(false)
-});
-
-export default function ControlPanel (): ReactElement {
+export default function ControlPanel () {
   const {
     width,
     loading,
@@ -44,51 +23,6 @@ export default function ControlPanel (): ReactElement {
     changeComponent,
     changeResolution
   } = useGlobalContext();
-  const uploadInput = useRef<HTMLInputElement>(null);
-  const [validHash, setValidHash] = useState(true);
-  const [inputHash, setInputHash] = useState(blurhash);
-  const [isToastShown, setIsToastShown] = useState(false);
-
-  useEffect(() => {
-    setInputHash(blurhash);
-  }, [blurhash]);
-
-  function uploadImage (e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-
-    if (!file) return;
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setUrl(reader.result as string);
-      setEdit(true);
-    }
-    reader.readAsDataURL(file)
-  }
-
-  function triggerInput () {
-    uploadInput.current?.click();
-  }
-
-  function blurhashInput (e: React.ChangeEvent<HTMLInputElement>) {
-    const hashValue = e.target.value;
-    setInputHash(hashValue);
-
-    const isValid = isBlurhashValid(hashValue).result;
-    setValidHash(_ => isValid);
-
-    if (isValid) setBlurhash(hashValue);
-  }
-
-  function copy2Clipboard () {
-    if (isToastShown) return;
-
-    setIsToastShown(true);
-
-    navigator.clipboard.writeText(inputHash)
-      .then(() => copied(setIsToastShown))
-      .catch(() => erred('Copy failed', setIsToastShown));
-  }
 
   return (
     <>
@@ -147,37 +81,19 @@ export default function ControlPanel (): ReactElement {
             </div>
           </div>
           <div className="cp_container">
-            <div className="blurhash-wrapper">
-              <input
-                value={inputHash}
-                type="text"
-                className={`${validHash ? 'valid' : 'invalid'}`}
-                onChange={blurhashInput}
-              />
-              <BiCopy onClick={copy2Clipboard} />
-            </div>
+            <BlurhashInput
+              blurhash={blurhash}
+              setBlurhash={setBlurhash}
+            />
           </div>
           <div className="cp_container">
-            <input
-              id="componentX"
-              type="text"
-              value={componentX}
-              onChange={(e) => changeComponent(parseInt(e.target.value), 'X')}
+            <UploadInput
+              changeComponent={changeComponent}
+              componentX={componentX}
+              componentY={componentY}
+              setEdit={setEdit}
+              setUrl={setUrl}
             />
-            <input
-              id="componentY"
-              type="text"
-              value={componentY}
-              onChange={(e) => changeComponent(parseInt(e.target.value), 'Y')}
-            />
-            <input
-              ref={uploadInput}
-              className="upload"
-              type="file"
-              accept="image/*"
-              onChange={uploadImage}
-            />
-            <button className="upload-btn" onClick={triggerInput}>Upload</button>
           </div>
         </div>
       </section>}
