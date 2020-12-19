@@ -95,6 +95,19 @@ p {
   }
 }
 
+div.helper-text {
+  text-align: left;
+  small {
+    color: red;
+    transition: $transition;
+    visibility: hidden;
+
+    &.error {
+      visibility: visible;
+    }
+  }
+}
+
 .app {
   overflow-y: hidden;
   display: flex;

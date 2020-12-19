@@ -116,17 +116,21 @@
 
       input {
         width: 100%;
-        padding: 0 0.5rem;
+        padding: 0 2.5rem 0 0.5rem;
         height: 30px;
         font-size: 0.9rem;
       }
 
-      svg {
-        color: blue;
+      button {
+        position: absolute;
         right: 10px;
         top: 30px;
-        font-size: 1rem;
-        position: absolute;
+        background: transparent;
+        border: transparent;
+        svg {
+          color: blue;
+          font-size: 1rem;
+        }
       }
     }
   }

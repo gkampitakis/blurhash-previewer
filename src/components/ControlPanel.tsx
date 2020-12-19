@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import React from 'react';
 import BlurhashInput from './BlurhashInput';
 import UploadInput from './UploadInput';
+import ExternalUrlInput from './ExternalUrlInput';
 import { useGlobalContext } from '../context';
 
 export default function ControlPanel () {
-  const [externalURL, setExternalUrl] = useState('');
   const {
     width,
     loading,
@@ -97,15 +96,9 @@ export default function ControlPanel () {
             />
           </div>
           <div className="cp_container url-input">
-            <label htmlFor="external-url">External URL</label>
-            {externalURL && <FaSearch />}
-            <input
-              id="external-url"
-              type="text"
-              placeholder={'https://bit.ly/2K8rTHr'}
-              value={externalURL}
-              onChange={(e) => setExternalUrl(e.target.value)}
-              // TODO: break it into a component and add validation
+            <ExternalUrlInput
+              setEdit={setEdit}
+              setUrl={setUrl}
             />
           </div>
         </div>
