@@ -29,14 +29,16 @@ export default function ExternalUrlInput ({ setEdit, setUrl }: ExternalUrlInputP
 
     bouncer.current = setTimeout(() => {
       setExternalUrl(url);
-      setIsValid(isValidURL(url));
+      setIsValid(() => isValidURL(url));
+
+      bouncer.current = undefined;
     }, 750);
   }
 
   function changeImage (e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     if (!externalURL || !isValid) return;
 
-    e.preventDefault();
     setEdit(true);
     setUrl(externalURL);
     setExternalUrl('');
@@ -61,13 +63,8 @@ export default function ExternalUrlInput ({ setEdit, setUrl }: ExternalUrlInputP
   );
 }
 
-function isValidURL (url: string): boolean {
-  const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-    '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+function isValidURL (url: string) {
+  const regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
-  return pattern.test(url);
+  return regex.test(url);
 }

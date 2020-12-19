@@ -59,7 +59,7 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
     punch: 1
   });
 
-  function changeWidth (value: string, metric: 'px' | '%') {    
+  function changeWidth (value: string, metric: 'px' | '%') {
     dispatch({ type: 'CHANGE_WIDTH', payload: { value: value, metric: metric } });
   }
 
@@ -94,11 +94,14 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
   useEffect(() => {
     async function encodeWrapper () {
       setLoading(true);
-      const hash = await encodeImageToBlurhash(url, appState.componentX, appState.componentY);
-
-      setBlurhash(hash);
-      setLoading(false);
-      setEdit(false);
+      try {
+        const hash = await encodeImageToBlurhash(url, appState.componentX, appState.componentY);
+        setBlurhash(hash);
+      } catch {
+      } finally {
+        setLoading(false);
+        setEdit(false);
+      }
     }
 
     if (edit) encodeWrapper();
