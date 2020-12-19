@@ -7,8 +7,9 @@ import React, {
   useEffect,
   Dispatch,
   SetStateAction
-} from 'react';
-import { encodeImageToBlurhash } from './blurhash';
+} from 'react'
+import { notification } from './utils/notifications';
+import { encodeImageToBlurhash } from './utils/blurhash';
 
 const AppContext = createContext<DispatchActions & AppState & {
   blurhash: string;
@@ -98,6 +99,7 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
         const hash = await encodeImageToBlurhash(url, appState.componentX, appState.componentY);
         setBlurhash(hash);
       } catch {
+        notification('😵 Something went wrong', () => { });
       } finally {
         setLoading(false);
         setEdit(false);
@@ -160,5 +162,3 @@ function appReducer (state: AppState, action: Action): AppState {
 }
 
 export const useGlobalContext = () => useContext(AppContext);
-
-// NOTE: do we need useCallback in the functions

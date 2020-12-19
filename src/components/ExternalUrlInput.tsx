@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, useRef, Dispatch, SetStateAction, FormEvent } from 'react';
+import { isValidURL } from '../utils/validate';
 import { FaUpload } from 'react-icons/fa';
 
 type Timeout = ReturnType<typeof setTimeout>;
@@ -61,10 +62,4 @@ export default function ExternalUrlInput ({ setEdit, setUrl }: ExternalUrlInputP
       </div>
     </form>
   );
-}
-
-function isValidURL (url: string) {
-  const regex = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-
-  return regex.test(url);
 }

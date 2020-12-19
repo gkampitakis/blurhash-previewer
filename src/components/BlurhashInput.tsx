@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { BiCopy } from 'react-icons/bi';
-import { isBlurhashValid } from '../blurhash';
-import { toast } from 'react-toastify';
+import { isBlurhashValid } from '../utils/blurhash';
+import { notification } from '../utils/notifications';
 
 interface BlurhashInputProps {
   blurhash: string;
@@ -33,8 +33,8 @@ export default function BlurhashInput ({ blurhash, setBlurhash }: BlurhashInputP
     setIsToastShown(true);
 
     navigator.clipboard.writeText(inputHash)
-      .then(() => copied(setIsToastShown))
-      .catch(() => erred('Copy failed', setIsToastShown));
+      .then(() => notification('Copied to clipboard', () => setIsToastShown(false)))
+      .catch((e) => notification(`😵 ${e.message}`, () => setIsToastShown(false)));
   }
 
   return (
@@ -49,27 +49,3 @@ export default function BlurhashInput ({ blurhash, setBlurhash }: BlurhashInputP
     </article>
   )
 }
-
-function copied (cb: Dispatch<SetStateAction<boolean>>) {
-  return toast('Copied to clipboard', {
-    position: 'bottom-center',
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    onClose: () => cb(false)
-  });
-}
-
-function erred (msg: string, cb: Dispatch<SetStateAction<boolean>>) {
-  return toast(`😵 ${msg}`, {
-    position: 'bottom-center',
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    onClose: () => cb(false)
-  });
-} 
