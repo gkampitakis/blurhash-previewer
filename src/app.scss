@@ -22,7 +22,7 @@
       align-items: center;
       margin: 0 auto;
       height: 8vh;
-      border-radius: $input-radius;
+      border-radius: $radius;
       width: 40%;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       transition: all 0.2s linear;
@@ -41,7 +41,7 @@
         font-size: 1rem;
         margin-right: 1rem;
         padding: 0 0 0 1.5rem;
-        border-radius: $input-radius;
+        border-radius: $radius;
         width: 100%;
         &.valid {
           color: blue;
@@ -67,25 +67,13 @@
         background: blue;
         color: white;
         width: 20vh;
-        letter-spacing: 5px;
-        font-weight: 700;
         font-size: 1rem;
-        padding: 0.5rem 1rem;
-        border-color: transparent;
+        height: 40px;
+        padding: 0rem 1rem;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        $transition: all 0.2s linear;
-
-        &:active {
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
       }
 
       .components {
-        .title {
-          display: block;
-          margin: auto;
-          font-size: unset;
-        }
         margin: 1rem;
         input {
           text-align: center;
@@ -106,13 +94,6 @@
       position: relative;
       width: 60%;
       margin: 0 auto;
-
-      label {
-        display: block;
-        // width: 50%;
-        margin: 0 auto;
-        color: hsl(210, 22%, 49%);
-      }
 
       input {
         width: 100%;

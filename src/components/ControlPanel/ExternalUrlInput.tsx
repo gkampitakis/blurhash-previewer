@@ -1,14 +1,16 @@
 import React, { useState, ChangeEvent, useRef, Dispatch, SetStateAction, FormEvent } from 'react';
-import { isValidURL } from '../utils/validate';
+import TextInput from '../General/TextInput';
+import { isValidURL } from '../../utils/validate';
 import { FaUpload } from 'react-icons/fa';
 
 type Timeout = ReturnType<typeof setTimeout>;
 interface ExternalUrlInputProps {
   setEdit: Dispatch<SetStateAction<boolean>>;
   setUrl: Dispatch<SetStateAction<string>>;
+  loading: boolean;
 };
 
-export default function ExternalUrlInput ({ setEdit, setUrl }: ExternalUrlInputProps) {
+export default function ExternalUrlInput ({ setEdit, setUrl, loading }: ExternalUrlInputProps) {
   const [externalURL, setExternalUrl] = useState('');
   const [isValid, setIsValid] = useState(true);
   const bouncer = useRef<Timeout | undefined>(undefined);
@@ -50,9 +52,9 @@ export default function ExternalUrlInput ({ setEdit, setUrl }: ExternalUrlInputP
     <form onSubmit={changeImage}>
       <label htmlFor="external-url">External URL</label>
       {externalURL && isValid && <button><FaUpload type="submit" /></button>}
-      <input
+      <TextInput
         id="external-url"
-        type="text"
+        loading={loading}
         ref={inputRef}
         placeholder={'https://bit.ly/2K8rTHr'}
         onChange={handleChange}

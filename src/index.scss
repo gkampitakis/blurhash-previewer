@@ -23,8 +23,14 @@ body {
 }
 
 input[type='text'] {
-  border-radius: $input-radius;
+  border-radius: $radius;
   border-color: transparent;
+
+  &:disabled {
+    background: white;
+    cursor: not-allowed;
+    color: #bbbbbb !important;
+  }
 }
 
 svg {
@@ -32,16 +38,39 @@ svg {
 }
 
 button {
+  border-radius: $radius;
+  $transition: $transition;
   cursor: pointer;
+  border-color: transparent;
+  letter-spacing: 5px;
+  font-weight: 700;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    &:active {
+      box-shadow: none;
+    }
+  }
 }
 
-button:focus {
-  outline: none;
+label {
+  display: block;
+  margin: 0 auto;
+  color: hsl(210, 22%, 49%);
 }
 
 ul {
   list-style-type: none;
 }
+
 a {
   text-decoration: none;
 }

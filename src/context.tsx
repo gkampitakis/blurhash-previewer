@@ -95,15 +95,13 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
   useEffect(() => {
     async function encodeWrapper () {
       setLoading(true);
-      try {
-        const hash = await encodeImageToBlurhash(url, appState.componentX, appState.componentY);
-        setBlurhash(hash);
-      } catch {
-        notification('😵 Something went wrong', () => { });
-      } finally {
-        setLoading(false);
-        setEdit(false);
-      }
+      encodeImageToBlurhash(url, appState.componentX, appState.componentY)
+        .then(hash => setBlurhash(hash))
+        .catch(() => notification('😵 Something went wrong', () => { }))
+        .finally(() => {
+          setLoading(false);
+          setEdit(false);
+        });
     }
 
     if (edit) encodeWrapper();

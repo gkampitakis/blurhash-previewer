@@ -1,14 +1,16 @@
 import React, { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
+import TextInput from '../General/TextInput';
 import { BiCopy } from 'react-icons/bi';
-import { isBlurhashValid } from '../utils/blurhash';
-import { notification } from '../utils/notifications';
+import { isBlurhashValid } from '../../utils/blurhash';
+import { notification } from '../../utils/notifications';
 
 interface BlurhashInputProps {
   blurhash: string;
+  loading: boolean;
   setBlurhash: Dispatch<SetStateAction<string>>;
 }
 
-export default function BlurhashInput ({ blurhash, setBlurhash }: BlurhashInputProps) {
+export default function BlurhashInput ({ blurhash, setBlurhash, loading }: BlurhashInputProps) {
   const [validHash, setValidHash] = useState(true);
   const [inputHash, setInputHash] = useState(blurhash);
   const [isToastShown, setIsToastShown] = useState(false);
@@ -38,14 +40,18 @@ export default function BlurhashInput ({ blurhash, setBlurhash }: BlurhashInputP
   }
 
   return (
-    <article className="blurhash-input">
-      <input
-        value={inputHash}
-        type="text"
-        className={`${validHash ? 'valid' : 'invalid'}`}
-        onChange={blurhashInput}
-      />
-      <BiCopy onClick={copy2Clipboard} />
-    </article>
+    <>
+      <label htmlFor="blurhash-input">Blurhash</label>
+      <article className="blurhash-input">
+        <TextInput
+          id="blurhash-input"
+          loading={loading}
+          value={inputHash}
+          className={`${validHash ? 'valid' : 'invalid'}`}
+          onChange={blurhashInput}
+        />
+        <BiCopy onClick={copy2Clipboard} />
+      </article>
+    </>
   )
 }

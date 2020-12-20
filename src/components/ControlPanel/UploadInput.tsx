@@ -1,8 +1,10 @@
 import React, { useRef, Dispatch, SetStateAction } from 'react';
+import { TextInput, LoadingIcon } from '../General';
 
 interface UploadInputProps {
   componentX: number;
   componentY: number;
+  loading: boolean;
   changeComponent: (value: number, type: 'X' | 'Y') => void;
   setEdit: Dispatch<SetStateAction<boolean>>;
   setUrl: Dispatch<SetStateAction<string>>;
@@ -12,6 +14,7 @@ export default function UploadInput ({
   changeComponent,
   componentX,
   componentY,
+  loading,
   setEdit,
   setUrl }: UploadInputProps) {
   const uploadInput = useRef<HTMLInputElement>(null);
@@ -36,19 +39,19 @@ export default function UploadInput ({
   return (
     <article className="upload-input">
       <div className="components">
-        <p className="title">Components</p>
-        <input
+        <label htmlFor="componentX">Components</label>
+        <TextInput
           id="componentX"
-          type="text"
+          loading={loading}
           value={componentX}
-          onChange={(e) => changeComponent(parseInt(e.target.value), 'X')}
+          onChange={(e: any) => changeComponent(parseInt(e.target.value), 'X')}
         />
         <p>x</p>
-        <input
+        <TextInput
           id="componentY"
-          type="text"
+          loading={loading}
           value={componentY}
-          onChange={(e) => changeComponent(parseInt(e.target.value), 'Y')}
+          onChange={(e: any) => changeComponent(parseInt(e.target.value), 'Y')}
         />
       </div>
       <input
@@ -58,7 +61,13 @@ export default function UploadInput ({
         accept="image/*"
         onChange={uploadImage}
       />
-      <button className="upload-btn" onClick={triggerInput}>Upload</button>
+      <button
+        className="upload-btn"
+        onClick={triggerInput}
+        disabled={loading}
+      >
+        {loading ? <LoadingIcon /> : 'Upload'}
+      </button>
     </article>
   );
 }
