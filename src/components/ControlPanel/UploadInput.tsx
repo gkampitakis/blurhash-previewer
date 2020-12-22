@@ -2,18 +2,12 @@ import React, { useRef, Dispatch, SetStateAction } from 'react';
 import { TextInput, LoadingIcon } from '../General';
 
 interface UploadInputProps {
-  componentX: number;
-  componentY: number;
   loading: boolean;
-  changeComponent: (value: number, type: 'X' | 'Y') => void;
   setEdit: Dispatch<SetStateAction<boolean>>;
   setUrl: Dispatch<SetStateAction<string>>;
 }
 
 export default function UploadInput ({
-  changeComponent,
-  componentX,
-  componentY,
   loading,
   setEdit,
   setUrl }: UploadInputProps) {
@@ -38,22 +32,8 @@ export default function UploadInput ({
 
   return (
     <article className="upload-input">
-      <div className="components">
-        <label htmlFor="componentX">Components</label>
-        <TextInput
-          id="componentX"
-          loading={loading}
-          value={componentX}
-          onChange={(e: any) => changeComponent(parseInt(e.target.value), 'X')}
-        />
-        <p>x</p>
-        <TextInput
-          id="componentY"
-          loading={loading}
-          value={componentY}
-          onChange={(e: any) => changeComponent(parseInt(e.target.value), 'Y')}
-        />
-      </div>
+      {/* NOTE: components should move outside of uploadInput */}
+      
       <input
         ref={uploadInput}
         className="upload"

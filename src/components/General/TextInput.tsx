@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 interface TextInputProps {
   id: string;
   loading: boolean;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   [key: string]: unknown;
 }
 

@@ -21,8 +21,9 @@ const getImageData = (image: CanvasImageSource) => {
 export const encodeImageToBlurhash = async (imageUrl: string, componentX: number, componentY: number) => {
   const image = await loadImage(imageUrl);
   const imageData = getImageData(image);
-
+  //NOTE: only this can run in a service worker
   return encode(imageData.data, imageData.width, imageData.height, componentX, componentY);
 };
 
 export { isBlurhashValid }; 
+// https://www.smashingmagazine.com/2020/10/tasks-react-app-web-workers/

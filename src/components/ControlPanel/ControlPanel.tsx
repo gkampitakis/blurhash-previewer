@@ -27,9 +27,9 @@ export default function ControlPanel () {
   } = useGlobalContext();
 
   return (
-    <section className="control_panel">
+    <section className="cp">
       <div className="center">
-        <div className="cp_container">
+        <div>
           <div>
             <label htmlFor="width">Width</label>
             <input
@@ -60,7 +60,7 @@ export default function ControlPanel () {
               id="resolutionX"
               loading={loading}
               value={resolutionX}
-              onChange={(e: any) => changeResolution(parseInt(e.target.value), 'X')}
+              onChange={(e) => changeResolution(parseInt(e.target.value), 'X')}
             />
           </div>
           <div>
@@ -69,7 +69,7 @@ export default function ControlPanel () {
               id="resolutionY"
               loading={loading}
               value={resolutionY}
-              onChange={(e: any) => changeResolution(parseInt(e.target.value), 'Y')}
+              onChange={(e) => changeResolution(parseInt(e.target.value), 'Y')}
             />
           </div>
           <div>
@@ -78,28 +78,43 @@ export default function ControlPanel () {
               id="punch"
               loading={loading}
               value={punch}
-              onChange={(e: any) => changePunch(parseInt(e.target.value))}
+              onChange={(e) => changePunch(parseInt(e.target.value))}
+            />
+          </div>
+          <div className="components">
+            <label htmlFor="componentX">Components</label>
+            <TextInput
+              id="componentX"
+              loading={loading}
+              value={componentX}
+              onChange={(e) => changeComponent(parseInt(e.target.value), 'X')}
+            />
+            <p>x</p>
+            <TextInput
+              id="componentY"
+              loading={loading}
+              value={componentY}
+              onChange={(e) => changeComponent(parseInt(e.target.value), 'Y')}
             />
           </div>
         </div>
-        <div className="cp_container">
+        <hr/>
+        <div>
           <BlurhashInput
             blurhash={blurhash}
             setBlurhash={setBlurhash}
             loading={loading}
           />
         </div>
-        <div className="cp_container">
+        <div>
           <UploadInput
             loading={loading}
-            changeComponent={changeComponent}
-            componentX={componentX}
-            componentY={componentY}
             setEdit={setEdit}
             setUrl={setUrl}
           />
         </div>
-        <div className="cp_container url-input">
+        <p>or</p>
+        <div className="url-input">
           <ExternalUrlInput
             loading={loading}
             setEdit={setEdit}

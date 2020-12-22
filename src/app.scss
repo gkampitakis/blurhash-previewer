@@ -1,13 +1,13 @@
 @import './variables.scss';
 
-.main_container {
+.main {
   display: flex;
   flex-direction: row;
   margin: 2rem 1rem;
   height: 85vh;
 }
 
-.control_panel {
+.cp {
   flex: 2;
   text-align: center;
   .center {
@@ -15,6 +15,23 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    margin: 0rem 1rem 2rem 0rem;
+
+    .components {
+      margin: 1rem;
+      input {
+        text-align: center;
+        font-size: 1rem;
+        width: 50px;
+        height: 50px;
+      }
+
+      p {
+        display: inline;
+        font-size: 1.2rem;
+        margin: 1rem;
+      }
+    }
 
     .blurhash-input {
       background: white;
@@ -72,25 +89,9 @@
         padding: 0rem 1rem;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       }
-
-      .components {
-        margin: 1rem;
-        input {
-          text-align: center;
-          font-size: 1rem;
-          width: 50px;
-          height: 50px;
-        }
-
-        p {
-          display: inline;
-          font-size: 1.2rem;
-          margin: 1rem;
-        }
-      }
     }
 
-    .cp_container.url-input {
+    .url-input {
       position: relative;
       width: 60%;
       margin: 0 auto;
@@ -148,13 +149,43 @@
   background: white;
   border-bottom: 1px solid #bdbdbd;
   box-shadow: 0px 1px 8px 1px rgba(0, 0, 0, 0.1);
+
   div {
+    min-height: 75px;
     margin: auto 2rem;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    align-items: center;
     display: flex;
 
+    h2 {
+      flex: 3;
+    }
+
     ul {
-      display: inline;
+      display: flex;
+      flex: 1;
+      justify-content: space-evenly;
+
+      li {
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 0.1rem;
+      }
+    }
+
+    a {
+      &:hover {
+        opacity: 0.6;
+      }
+
+      &.selected {
+        color: blue;
+        font-size: 1.3rem;
+      }
+    }
+
+    svg {
+      font-size: 2rem;
     }
   }
 }

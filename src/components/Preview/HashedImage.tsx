@@ -1,9 +1,9 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { Blurhash } from 'react-blurhash';
 import { useGlobalContext } from '../../context';
 
-export default function HashedImage (): ReactElement {
-  const { blurhash, width, height, resolutionY, resolutionX, punch } = useGlobalContext();  
+export default function HashedImage () {
+  const { blurhash, width, height, resolutionY, resolutionX, punch } = useGlobalContext();
 
   return (
     <div className="img_container resizable">

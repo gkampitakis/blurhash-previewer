@@ -45,7 +45,7 @@ interface AppState {
   punch: number;
 }
 
-export const AppProvider = ({ children }: { children: ReactElement | ReactElement[] }): ReactElement => {
+export const AppProvider = ({ children }: { children: ReactElement | ReactElement[] }) => {
   const [blurhash, setBlurhash] = useState('LPKBm@t6.TR*$yROxaoeI@aeVrV@');
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);

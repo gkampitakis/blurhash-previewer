@@ -1,8 +1,8 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { useGlobalContext } from '../../context';
 import HashedImage from './HashedImage';
 
-export default function ImagePreviewer (): ReactElement {
+export default function ImagePreviewer () {
   const { url } = useGlobalContext();
 
   return (

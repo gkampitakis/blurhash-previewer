@@ -37,6 +37,10 @@ svg {
   cursor: pointer;
 }
 
+hr {
+  border-top: 0.5px solid #bbbbbb;
+}
+
 button {
   border-radius: $radius;
   $transition: $transition;
@@ -73,6 +77,11 @@ ul {
 
 a {
   text-decoration: none;
+  transition: $transition;
+
+  &:visited {
+    color: unset;
+  }
 }
 
 h1,
@@ -97,7 +106,6 @@ h4 {
   font-size: 0.875rem;
 }
 p {
-  margin-bottom: 1.25rem;
   color: hsl(210, 22%, 49%);
 }
 @media screen and (min-width: 800px) {
