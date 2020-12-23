@@ -30,55 +30,55 @@ export default function ControlPanel () {
     <section className="cp">
       <div className="center">
         <div>
-          <div>
-            <label htmlFor="width">Width</label>
-            <input
-              id="width"
-              type="range"
-              min="0"
-              max="100"
-              onChange={(e) => changeWidth(e.target.value, '%')}
-              value={width.value}
-              disabled={loading}
-            />
+          <div className="controls">
+            <div>
+              <label htmlFor="width">Width</label>
+              <input
+                id="width"
+                type="range"
+                min="0"
+                max="100"
+                onChange={(e) => changeWidth(e.target.value, '%')}
+                value={width.value}
+                disabled={loading}
+              />
+            </div>
+            <div>
+              <label htmlFor="height">Height</label>
+              <input
+                id="height"
+                type="range"
+                min="0"
+                max="100"
+                value={height.value}
+                onChange={(e) => changeHeight(e.target.value, '%')}
+                disabled={loading}
+              />
+            </div>
+            <div>
+              <label htmlFor="punch">Punch</label>
+              <TextInput
+                id="punch"
+                loading={loading}
+                value={punch}
+                onChange={(e) => changePunch(parseInt(e.target.value))}
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="height">Height</label>
-            <input
-              id="height"
-              type="range"
-              min="0"
-              max="100"
-              value={height.value}
-              onChange={(e) => changeHeight(e.target.value, '%')}
-              disabled={loading}
-            />
-          </div>
-          <div>
-            <label htmlFor="resolutionX">ResolutionX</label>
+          <div className="components">
+            <label htmlFor="resolutionX">Resolution</label>
             <TextInput
               id="resolutionX"
               loading={loading}
               value={resolutionX}
               onChange={(e) => changeResolution(parseInt(e.target.value), 'X')}
             />
-          </div>
-          <div>
-            <label htmlFor="resolutionY">ResolutionY</label>
+            <p>x</p>
             <TextInput
               id="resolutionY"
               loading={loading}
               value={resolutionY}
               onChange={(e) => changeResolution(parseInt(e.target.value), 'Y')}
-            />
-          </div>
-          <div>
-            <label htmlFor="punch">Punch</label>
-            <TextInput
-              id="punch"
-              loading={loading}
-              value={punch}
-              onChange={(e) => changePunch(parseInt(e.target.value))}
             />
           </div>
           <div className="components">
@@ -98,7 +98,7 @@ export default function ControlPanel () {
             />
           </div>
         </div>
-        <hr/>
+        <hr />
         <div>
           <BlurhashInput
             blurhash={blurhash}

@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useRef, Dispatch, SetStateAction, FormEvent } from 'react';
+import React, { useState, ChangeEvent, useRef, Dispatch, SetStateAction, FormEvent, createRef } from 'react';
 import TextInput from '../General/TextInput';
 import { isValidURL } from '../../utils/validate';
 import { FaUpload } from 'react-icons/fa';
@@ -12,12 +12,13 @@ interface ExternalUrlInputProps {
 
 export default function ExternalUrlInput ({ setEdit, setUrl, loading }: ExternalUrlInputProps) {
   const [externalURL, setExternalUrl] = useState('');
+  const [show, setShow] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const bouncer = useRef<Timeout | undefined>(undefined);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   function handleChange (e: ChangeEvent<HTMLInputElement>) {
     const url = e.target.value;
+    setExternalUrl(url);
 
     if (bouncer.current) {
       clearTimeout(bouncer.current);
@@ -25,14 +26,16 @@ export default function ExternalUrlInput ({ setEdit, setUrl, loading }: External
 
     if (url === '') {
       bouncer.current = undefined;
-      setExternalUrl('');
       setIsValid(true);
       return;
     }
 
     bouncer.current = setTimeout(() => {
-      setExternalUrl(url);
-      setIsValid(() => isValidURL(url));
+      setIsValid(() => {
+        const valid = isValidURL(url)
+        setShow(valid);
+        return valid;
+      });
 
       bouncer.current = undefined;
     }, 750);
@@ -45,17 +48,16 @@ export default function ExternalUrlInput ({ setEdit, setUrl, loading }: External
     setEdit(true);
     setUrl(externalURL);
     setExternalUrl('');
-    inputRef.current!.value = '';
   }
 
   return (
     <form onSubmit={changeImage}>
       <label htmlFor="external-url">External URL</label>
-      {externalURL && isValid && <button><FaUpload type="submit" /></button>}
+      {externalURL && isValid && show && <button><FaUpload type="submit" /></button>}
       <TextInput
         id="external-url"
         loading={loading}
-        ref={inputRef}
+        value={externalURL}
         placeholder={'https://bit.ly/2K8rTHr'}
         onChange={handleChange}
       />

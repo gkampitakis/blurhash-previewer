@@ -12,9 +12,9 @@ export default function TextInput ({ id, loading, ...rest }: TextInputProps) {
     <input
       id={id}
       autoComplete="off"
+      type="text"
       disabled={loading}
       {...rest}
-      type="text"
     />
   );
 }
