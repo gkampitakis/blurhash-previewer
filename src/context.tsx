@@ -15,20 +15,20 @@ const AppContext = createContext<DispatchActions & AppState & {
   blurhash: string;
   loading: boolean;
   url: string;
+  punch: number;
   setUrl: Dispatch<SetStateAction<string>>;
   setEdit: Dispatch<SetStateAction<boolean>>;
   setBlurhash: Dispatch<SetStateAction<string>>
 }>({} as any);
 
 type Action =
-  | { type: 'CHANGE_PUNCH', payload: { value: number } }
   | { type: 'CHANGE_WIDTH', payload: { value: string; metric: 'px' | '%' } }
   | { type: 'CHANGE_HEIGHT', payload: { value: string; metric: 'px' | '%' } }
   | { type: 'CHANGE_COMPONENT', payload: { value: number; type: 'X' | 'Y' } }
   | { type: 'CHANGE_RESOLUTION', payload: { value: number; type: 'X' | 'Y' } };
 
 interface DispatchActions {
-  changePunch: (value: number) => void;
+  changePunch: (value: string) => void;
   changeWidth: (width: string, metric: 'px' | '%') => void;
   changeHeight: (height: string, metric: 'px' | '%') => void;
   changeComponent: (value: number, type: 'X' | 'Y') => void;
@@ -41,14 +41,14 @@ interface AppState {
   resolutionY: number;
   resolutionX: number;
   componentX: number;
-  componentY: number;
-  punch: number;
+  componentY: number
 }
 
 export const AppProvider = ({ children }: { children: ReactElement | ReactElement[] }) => {
   const [blurhash, setBlurhash] = useState('LPKBm@t6.TR*$yROxaoeI@aeVrV@');
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [punch, setPunch] = useState(0);
   const [url, setUrl] = useState('https://images.unsplash.com/photo-1608070734841-1047b8c36726?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxODUwMjV8MHwxfGFsbHw4fHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=1080');
   const [appState, dispatch] = useReducer(appReducer, {
     width: { value: '50', metric: '%' },
@@ -56,8 +56,7 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
     resolutionY: 100,
     resolutionX: 100,
     componentX: 4,
-    componentY: 4,
-    punch: 1
+    componentY: 4
   });
 
   function changeWidth (value: string, metric: 'px' | '%') {
@@ -88,8 +87,11 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
     });
   }
 
-  function changePunch (value: number) {
-    dispatch({ type: 'CHANGE_PUNCH', payload: { value } });
+  function changePunch (input: string) {
+    let value = parseInt(input);
+    if (Number.isNaN(value)) value = 0
+
+    setPunch(value);
   }
 
   useEffect(() => {
@@ -111,6 +113,7 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
     <AppContext.Provider value={{
       ...appState,
       url,
+      punch,
       loading,
       blurhash,
       setUrl,
@@ -148,11 +151,6 @@ function appReducer (state: AppState, action: Action): AppState {
       return {
         ...state,
         [`component${action.payload.type}`]: action.payload.value
-      };
-    case 'CHANGE_PUNCH':
-      return {
-        ...state,
-        punch: action.payload.value
       };
     default:
       throw Error('Reached to unknown state in reducer');

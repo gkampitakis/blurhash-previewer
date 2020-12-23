@@ -61,12 +61,12 @@ export default function ControlPanel () {
                 id="punch"
                 loading={loading}
                 value={punch}
-                onChange={(e) => changePunch(parseInt(e.target.value))}
+                onChange={(e) => changePunch(e.target.value)}
               />
             </div>
           </div>
           <div className="components">
-            <label htmlFor="resolutionX">Resolution</label>
+            <label>Resolution</label>
             <TextInput
               id="resolutionX"
               loading={loading}
@@ -82,7 +82,7 @@ export default function ControlPanel () {
             />
           </div>
           <div className="components">
-            <label htmlFor="componentX">Components</label>
+            <label>Components</label>
             <TextInput
               id="componentX"
               loading={loading}

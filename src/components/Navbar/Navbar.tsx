@@ -11,7 +11,7 @@ function Navbar () {
           <li><NavLink exact to="/">Home</NavLink></li>
           <li><NavLink exact to="/about">Info</NavLink></li>
         </ul>
-        <a href="https://github.com/gkampitakis/blurhash-previewer/blob/master/README.md" target="_blank" rel="noreferrer"><FaGithub /></a>
+        <a href="https://github.com/gkampitakis/blurhash-previewer/blob/master/README.md" target="_blank" rel="noreferrer" aria-label="Github icon"><FaGithub /></a>
       </div>
     </nav>
   );

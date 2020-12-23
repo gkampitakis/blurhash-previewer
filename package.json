@@ -21,7 +21,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "GENERATE_SOURCEMAP=false  react-scripts build",
+    "build:map": "react-scripts build",
+    "analyze": "npm run build:map && source-map-explorer build/static/js/*.chunk.js"
   },
   "eslintConfig": {
     "extends": [
@@ -41,6 +43,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.1.6"
+    "@types/react-router-dom": "^5.1.6",
+    "source-map-explorer": "^2.5.1"
   }
 }

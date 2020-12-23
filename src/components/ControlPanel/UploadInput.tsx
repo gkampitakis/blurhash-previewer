@@ -46,7 +46,7 @@ export default function UploadInput ({
         onClick={triggerInput}
         disabled={loading}
       >
-        {loading ? <LoadingIcon /> : 'Upload'}
+        {loading ? <LoadingIcon /> : 'Upload Image'}
       </button>
     </article>
   );
