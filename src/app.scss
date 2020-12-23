@@ -1,14 +1,13 @@
 @import './variables.scss';
 
 .main {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 50% 50%;
   margin: 2rem 1rem;
-  height: 85vh;
 }
 
 .cp {
-  flex: 2;
+  height: 85vh;
   text-align: center;
   .center {
     height: 100%;
@@ -133,7 +132,7 @@
 }
 
 .image_previewer {
-  flex: 2;
+  height: 85vh;
   display: grid;
   grid-template-rows: 50% 50%;
   row-gap: 1rem;
@@ -200,6 +199,57 @@
 
     svg {
       font-size: 2rem;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .image_previewer {
+    justify-self: center;
+    .img_container {
+      height: 90%;
+      max-width: 40vw;
+    }
+  }
+
+  .cp {
+    .center {
+      margin: 0;
+      .blurhash-input {
+        width: 100%;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      .url-input {
+        width: 100%;
+      }
+    }
+  }
+
+  .navbar {
+    div {
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      ul {
+        flex: 2;
+      }
+
+      svg {
+        font-size: 1.5rem;
+      }
+
+      a {
+        font-size: 0.8rem;
+
+        &.selected {
+          font-size: 1.1rem;
+        }
+      }
     }
   }
 }

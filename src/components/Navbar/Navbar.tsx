@@ -6,7 +6,7 @@ function Navbar () {
   return (
     <nav className="navbar">
       <div>
-        <h2>Blurhash Previewer</h2>
+        <h2>BlurHash Previewer</h2>
         <ul>
           <li><NavLink exact to="/">Home</NavLink></li>
           <li><NavLink exact to="/about">Info</NavLink></li>

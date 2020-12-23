@@ -20,6 +20,7 @@ body {
   font-size: 0.875rem;
   height: 100vh;
   background: $background;
+  overflow-y: hidden;
 }
 
 input[type='text'] {
@@ -146,7 +147,6 @@ div.helper-text {
 }
 
 .app {
-  overflow-y: hidden;
   display: flex;
   flex-direction: column;
 }
