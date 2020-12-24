@@ -32,6 +32,10 @@ input[type='text'] {
     cursor: not-allowed;
     color: #bbbbbb !important;
   }
+
+  &.invalid {
+    color: red;
+  }
 }
 
 svg {

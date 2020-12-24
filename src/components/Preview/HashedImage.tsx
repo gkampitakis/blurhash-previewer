@@ -11,8 +11,8 @@ export default function HashedImage () {
         hash={blurhash}
         width={`${width.value}${width.metric}`}
         height={`${height.value}${height.metric}`}
-        resolutionX={resolutionX}
-        resolutionY={resolutionY}
+        resolutionX={resolutionX + 1}
+        resolutionY={resolutionY + 1}
         style={{ maxWidth: '100%' }}
         punch={punch}
       />
