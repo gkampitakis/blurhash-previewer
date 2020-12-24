@@ -174,26 +174,9 @@
       flex: 3;
     }
 
-    ul {
-      display: flex;
-      flex: 1;
-      justify-content: space-evenly;
-
-      li {
-        font-size: 0.9rem;
-        font-weight: 500;
-        letter-spacing: 0.1rem;
-      }
-    }
-
     a {
       &:hover {
         opacity: 0.6;
-      }
-
-      &.selected {
-        color: blue;
-        font-size: 1.3rem;
       }
     }
 
@@ -235,20 +218,8 @@
         font-size: 1.5rem;
       }
 
-      ul {
-        flex: 2;
-      }
-
       svg {
         font-size: 1.5rem;
-      }
-
-      a {
-        font-size: 0.8rem;
-
-        &.selected {
-          font-size: 1.1rem;
-        }
       }
     }
   }
