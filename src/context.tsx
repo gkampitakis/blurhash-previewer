@@ -6,10 +6,10 @@ import React, {
   useState,
   useEffect,
   Dispatch,
-  SetStateAction
-} from 'react'
-import { notification } from './utils/notifications';
-import { encodeImageToBlurhash } from './utils/blurhash';
+  SetStateAction,
+  useRef
+} from 'react';
+import { notification, encodeImageToBlurhash } from './utils';
 
 const AppContext = createContext<DispatchActions & AppState & {
   blurhash: string;
@@ -17,7 +17,6 @@ const AppContext = createContext<DispatchActions & AppState & {
   url: string;
   punch: number;
   setUrl: Dispatch<SetStateAction<string>>;
-  setEdit: Dispatch<SetStateAction<boolean>>;
   setBlurhash: Dispatch<SetStateAction<string>>
 }>({} as any);
 
@@ -32,7 +31,7 @@ interface DispatchActions {
   changeWidth: (width: string, metric: 'px' | '%') => void;
   changeHeight: (height: string, metric: 'px' | '%') => void;
   changeComponent: (value: number, type: 'X' | 'Y') => void;
-  changeResolution: (value: number, type: 'X' | 'Y') => void;
+  changeResolution: (value: string, type: 'X' | 'Y') => void;
 }
 
 interface AppState {
@@ -47,14 +46,14 @@ interface AppState {
 export const AppProvider = ({ children }: { children: ReactElement | ReactElement[] }) => {
   const [blurhash, setBlurhash] = useState('LPKBm@t6.TR*$yROxaoeI@aeVrV@');
   const [loading, setLoading] = useState(false);
-  const [edit, setEdit] = useState(false);
-  const [punch, setPunch] = useState(0);
+  const [punch, setPunch] = useState(1);
+  const firstRender = useRef(true);
   const [url, setUrl] = useState('https://images.unsplash.com/photo-1608070734841-1047b8c36726?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxODUwMjV8MHwxfGFsbHw4fHx8fHx8Mnw&ixlib=rb-1.2.1&q=80&w=1080');
   const [appState, dispatch] = useReducer(appReducer, {
     width: { value: '50', metric: '%' },
     height: { value: '100', metric: '%' },
-    resolutionY: 100,
-    resolutionX: 100,
+    resolutionY: 32,
+    resolutionX: 32,
     componentX: 4,
     componentY: 4
   });
@@ -67,7 +66,10 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
     dispatch({ type: 'CHANGE_HEIGHT', payload: { value, metric: metric } });
   }
 
-  function changeResolution (value: number, type: 'X' | 'Y') {
+  function changeResolution (input: string, type: 'X' | 'Y') {
+    let value = parseInt(input);
+    if (Number.isNaN(value)) value = 0;
+
     dispatch({
       type: 'CHANGE_RESOLUTION',
       payload: {
@@ -99,15 +101,19 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
       setLoading(true);
       encodeImageToBlurhash(url, appState.componentX, appState.componentY)
         .then(hash => setBlurhash(hash))
-        .catch(() => notification('😵 Something went wrong', () => { }))
-        .finally(() => {
-          setLoading(false);
-          setEdit(false);
-        });
+        .catch((error) => {
+          console.error(error);
+          notification('😵 Something went wrong', () => { })
+        })
+        .finally(() => setLoading(false));
     }
 
-    if (edit) encodeWrapper();
-  }, [url, appState.componentX, appState.componentY, edit]);
+    if (!firstRender.current) {
+      encodeWrapper();
+    } else {
+      firstRender.current = false;
+    }
+  }, [url, appState.componentX, appState.componentY]);
 
   return (
     <AppContext.Provider value={{
@@ -117,7 +123,6 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
       loading,
       blurhash,
       setUrl,
-      setEdit,
       setBlurhash,
       changeWidth,
       changeHeight,

@@ -1,16 +1,13 @@
 import React, { useState, ChangeEvent, useRef, Dispatch, SetStateAction, FormEvent } from 'react';
 import TextInput from '../General/TextInput';
-import { isValidURL } from '../../utils/validate';
+import { isValidURL, Timeout } from '../../utils';
 import { BiUpload } from 'react-icons/bi';
-
-type Timeout = ReturnType<typeof setTimeout>;
 interface ExternalUrlInputProps {
-  setEdit: Dispatch<SetStateAction<boolean>>;
   setUrl: Dispatch<SetStateAction<string>>;
   loading: boolean;
 };
 
-export default function ExternalUrlInput ({ setEdit, setUrl, loading }: ExternalUrlInputProps) {
+export default function ExternalUrlInput ({ setUrl, loading }: ExternalUrlInputProps) {
   const [externalURL, setExternalUrl] = useState('');
   const [show, setShow] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -45,7 +42,6 @@ export default function ExternalUrlInput ({ setEdit, setUrl, loading }: External
     e.preventDefault();
     if (!externalURL || !isValid) return;
 
-    setEdit(true);
     setUrl(externalURL);
     setExternalUrl('');
   }

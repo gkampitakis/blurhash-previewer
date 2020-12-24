@@ -2,10 +2,11 @@ import React from 'react';
 import BlurhashInput from './BlurhashInput';
 import UploadInput from './UploadInput';
 import ExternalUrlInput from './ExternalUrlInput';
+import ComponentsInput from './ComponentsInput';
 import { useGlobalContext } from '../../context';
 import { TextInput } from '../General';
 import { BiInfoCircle } from 'react-icons/bi';
-import { ResolutionTooltip, ComponentsTooltip, PunchTooltip } from '../General/Tooltips';
+import { ResolutionTooltip, PunchTooltip } from '../General/Tooltips';
 
 export default function ControlPanel () {
   const {
@@ -19,7 +20,6 @@ export default function ControlPanel () {
     componentX,
     componentY,
     setBlurhash,
-    setEdit,
     setUrl,
     changePunch,
     changeWidth,
@@ -27,6 +27,7 @@ export default function ControlPanel () {
     changeComponent,
     changeResolution
   } = useGlobalContext();
+
 
   return (
     <section className="cp">
@@ -75,33 +76,22 @@ export default function ControlPanel () {
               id="resolutionX"
               loading={loading}
               value={resolutionX}
-              onChange={(e) => changeResolution(parseInt(e.target.value), 'X')}
+              onChange={(e) => changeResolution(e.target.value, 'X')}
             />
             <p>x</p>
             <TextInput
               id="resolutionY"
               loading={loading}
               value={resolutionY}
-              onChange={(e) => changeResolution(parseInt(e.target.value), 'Y')}
+              onChange={(e) => changeResolution(e.target.value, 'Y')}
             />
           </div>
-          <div className="components">
-            <ComponentsTooltip />
-            <label>Components <BiInfoCircle data-tip data-for="components" /></label>
-            <TextInput
-              id="componentX"
-              loading={loading}
-              value={componentX}
-              onChange={(e) => changeComponent(parseInt(e.target.value), 'X')}
-            />
-            <p>x</p>
-            <TextInput
-              id="componentY"
-              loading={loading}
-              value={componentY}
-              onChange={(e) => changeComponent(parseInt(e.target.value), 'Y')}
-            />
-          </div>
+          <ComponentsInput
+            changeComponent={changeComponent}
+            componentX={componentX}
+            componentY={componentY}
+            loading={loading}
+          />
         </div>
         <hr />
         <div>
@@ -114,7 +104,6 @@ export default function ControlPanel () {
         <div>
           <UploadInput
             loading={loading}
-            setEdit={setEdit}
             setUrl={setUrl}
           />
         </div>
@@ -122,7 +111,6 @@ export default function ControlPanel () {
         <div className="url-input">
           <ExternalUrlInput
             loading={loading}
-            setEdit={setEdit}
             setUrl={setUrl}
           />
         </div>

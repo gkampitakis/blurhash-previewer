@@ -33,3 +33,18 @@ $radius: 3px;
   -o-animation: rotating 1.5s linear infinite;
   animation: rotating 1.5s linear infinite;
 }
+
+@keyframes loader-animation {
+  0% {
+    left: 0%;
+  }
+  49% {
+    left: 50%;
+  }
+  50% {
+    left: 50%;
+  }
+  100% {
+    left: 0%;
+  }
+}

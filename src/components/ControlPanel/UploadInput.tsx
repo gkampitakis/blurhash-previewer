@@ -3,13 +3,11 @@ import { TextInput, LoadingIcon } from '../General';
 
 interface UploadInputProps {
   loading: boolean;
-  setEdit: Dispatch<SetStateAction<boolean>>;
   setUrl: Dispatch<SetStateAction<string>>;
 }
 
 export default function UploadInput ({
   loading,
-  setEdit,
   setUrl }: UploadInputProps) {
   const uploadInput = useRef<HTMLInputElement>(null);
 
@@ -21,7 +19,6 @@ export default function UploadInput ({
 
     reader.onloadend = () => {
       setUrl(reader.result as string);
-      setEdit(true);
     }
     reader.readAsDataURL(file)
   }
@@ -33,7 +30,7 @@ export default function UploadInput ({
   return (
     <article className="upload-input">
       {/* NOTE: components should move outside of uploadInput */}
-      
+
       <input
         ref={uploadInput}
         className="upload"

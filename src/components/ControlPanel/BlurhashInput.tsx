@@ -1,8 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import TextInput from '../General/TextInput';
 import { BiCopy } from 'react-icons/bi';
-import { isBlurhashValid } from '../../utils/blurhash';
-import { notification } from '../../utils/notifications';
+import { notification, isBlurhashValid } from '../../utils';
 
 interface BlurhashInputProps {
   blurhash: string;
