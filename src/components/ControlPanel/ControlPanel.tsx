@@ -4,6 +4,8 @@ import UploadInput from './UploadInput';
 import ExternalUrlInput from './ExternalUrlInput';
 import { useGlobalContext } from '../../context';
 import { TextInput } from '../General';
+import { BiInfoCircle } from 'react-icons/bi';
+import { ResolutionTooltip, ComponentsTooltip, PunchTooltip } from '../General/Tooltips';
 
 export default function ControlPanel () {
   const {
@@ -56,7 +58,8 @@ export default function ControlPanel () {
               />
             </div>
             <div>
-              <label htmlFor="punch">Punch</label>
+              <PunchTooltip />
+              <label htmlFor="punch">Punch <BiInfoCircle data-tip data-for="punch" /></label>
               <TextInput
                 id="punch"
                 loading={loading}
@@ -66,7 +69,8 @@ export default function ControlPanel () {
             </div>
           </div>
           <div className="components">
-            <label>Resolution</label>
+            <ResolutionTooltip />
+            <label>Resolution <BiInfoCircle data-tip data-for="resolution" /></label>
             <TextInput
               id="resolutionX"
               loading={loading}
@@ -82,7 +86,8 @@ export default function ControlPanel () {
             />
           </div>
           <div className="components">
-            <label>Components</label>
+            <ComponentsTooltip />
+            <label>Components <BiInfoCircle data-tip data-for="components" /></label>
             <TextInput
               id="componentX"
               loading={loading}

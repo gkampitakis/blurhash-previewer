@@ -1,8 +1,8 @@
 import React from 'react';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { BiLoaderAlt } from 'react-icons/bi';
 
 export default function LoadingIcon () {
   return (
-    <AiOutlineLoading3Quarters className="rotating" />
+    <BiLoaderAlt className="rotating" />
   );
 }
