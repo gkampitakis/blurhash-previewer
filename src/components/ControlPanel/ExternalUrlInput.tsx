@@ -1,7 +1,7 @@
-import React, { useState, ChangeEvent, useRef, Dispatch, SetStateAction, FormEvent, createRef } from 'react';
+import React, { useState, ChangeEvent, useRef, Dispatch, SetStateAction, FormEvent } from 'react';
 import TextInput from '../General/TextInput';
 import { isValidURL } from '../../utils/validate';
-import { FaUpload } from 'react-icons/fa';
+import { BiUpload } from 'react-icons/bi';
 
 type Timeout = ReturnType<typeof setTimeout>;
 interface ExternalUrlInputProps {
@@ -53,7 +53,7 @@ export default function ExternalUrlInput ({ setEdit, setUrl, loading }: External
   return (
     <form onSubmit={changeImage}>
       <label htmlFor="external-url">External URL</label>
-      {externalURL && isValid && show && <button><FaUpload type="submit" /></button>}
+      {externalURL && isValid && show && <button><BiUpload type="submit" /></button>}
       <TextInput
         id="external-url"
         loading={loading}

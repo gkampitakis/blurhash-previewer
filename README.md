@@ -6,7 +6,7 @@
 
 Application for previewing BlurHash strings to images and converting images to BlurHash string.
 
-This application is running in [placeholder link]().
+This application is running in [https://youthful-euler-798f43.netlify.app/](https://youthful-euler-798f43.netlify.app/).
 
 | [BlurHash](https://blurha.sh/) is a compact representation of a placeholder for an image
 

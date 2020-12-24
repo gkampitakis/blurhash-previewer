@@ -70,6 +70,10 @@ label {
   display: block;
   margin: 0 auto;
   color: hsl(221, 22%, 34%);
+
+  svg {
+    cursor: help;
+  }
 }
 
 ul {
