@@ -4,7 +4,6 @@ Variables
 ===========
 */
 
-$background: hsl(210, 36%, 96%);
 $transition: all 0.2s linear;
 $radius: 3px;
 
@@ -26,6 +25,7 @@ $radius: 3px;
 }
 
 .rotating {
+  cursor: not-allowed;
   font-size: 1.5rem;
   -webkit-animation: rotating 1.5s linear infinite;
   -moz-animation: rotating 1.5s linear infinite;
@@ -47,4 +47,32 @@ $radius: 3px;
   100% {
     left: 0%;
   }
+}
+
+:root {
+  --background: hsl(210, 36%, 96%);
+  --navbar: white;
+  --navbar-btm: #bdbdbd;
+  --input-bkg: white;
+  --clr-invalid: #f44336;
+  --clr-valid: blue;
+  --primary: #3f51b5;
+  --clr-text: black;
+  --hr: #bbbbbb;
+  --label: hsl(221, 22%, 34%);
+  --clr-p: #44506a;
+}
+
+.dark-theme {
+  --background: #303030;
+  --input-bkg: #424242;
+  --navbar: #424242;
+  --navbar-btm: #707070;
+  --clr-invalid: #d32f2f;
+  --clr-valid: blue;
+  --clr-text: white;
+  --primary: #303f9f;
+  --hr: #bbbbbb;
+  --label: rgb(191, 191, 191);
+  --clr-p: #b8bfd1;
 }

@@ -19,22 +19,33 @@ body {
   line-height: 1.5;
   font-size: 0.875rem;
   height: 100vh;
-  background: $background;
+  background: var(--background);
   overflow-y: hidden;
 }
 
 input[type='text'] {
   border-radius: $radius;
+  background: var(--input-bkg);
   border-color: transparent;
+  color: var(--clr-text);
 
   &:disabled {
-    background: white;
+    background: var(--navbar);
     cursor: not-allowed;
     color: #bbbbbb !important;
   }
 
   &.invalid {
-    color: red;
+    color: var(--clr-invalid);
+  }
+
+  &:focus {
+    outline-style: double;
+    outline-color: var(--hr);
+  }
+
+  &::placeholder {
+    color: #a9a9a9;
   }
 }
 
@@ -43,7 +54,7 @@ svg {
 }
 
 hr {
-  border-top: 0.5px solid #bbbbbb;
+  border-top: 0.5px solid var(--hr);
 }
 
 button {
@@ -57,23 +68,12 @@ button {
   &:focus {
     outline: none;
   }
-
-  &:active {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    &:active {
-      box-shadow: none;
-    }
-  }
 }
 
 label {
   display: block;
   margin: 0 auto;
-  color: hsl(221, 22%, 34%);
+  color: var(--label);
 
   svg {
     cursor: help;
@@ -101,6 +101,7 @@ h4 {
   text-transform: capitalize;
   line-height: 1.25;
   margin-bottom: 0.75rem;
+  color: var(--clr-text);
 }
 h1 {
   font-size: 3rem;
@@ -115,7 +116,7 @@ h4 {
   font-size: 0.875rem;
 }
 p {
-  color: hsl(221, 22%, 34%);
+  color: var(--clr-p);
 }
 @media screen and (min-width: 800px) {
   h1 {
@@ -144,7 +145,7 @@ p {
 div.helper-text {
   text-align: left;
   small {
-    color: red;
+    color: var(--clr-invalid);
     transition: $transition;
     visibility: hidden;
 

@@ -47,7 +47,7 @@
     }
 
     .blurhash-input {
-      background: white;
+      background: var(--navbar);
       display: flex;
       align-items: center;
       margin: 0 auto;
@@ -55,7 +55,7 @@
       border-radius: $radius;
       width: 40%;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      transition: all 0.2s linear;
+      transition: box-shadow 0.2s linear;
 
       &:hover {
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
@@ -64,21 +64,23 @@
       svg {
         margin-right: 10px;
         font-size: 2rem;
+        color: var(--clr-text);
         cursor: pointer;
       }
 
       input {
         font-size: 1rem;
+        background: var(--navbar);
         margin-right: 1rem;
         padding: 0 0 0 1.5rem;
         border-radius: $radius;
         width: 100%;
         &.valid {
-          color: blue;
+          color: var(--clr-text);
         }
 
         &.invalid {
-          color: red;
+          color: var(--clr-invalid);
         }
         border: transparent;
         &:active,
@@ -94,13 +96,24 @@
       }
 
       .upload-btn {
-        background: blue;
+        background: var(--primary);
         color: white;
         width: 23vh;
         font-size: 1rem;
         height: 40px;
         padding: 0rem 1rem;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+        &:active {
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        &:disabled {
+          cursor: not-allowed;
+          &:active {
+            box-shadow: none;
+          }
+        }
       }
     }
 
@@ -123,7 +136,7 @@
         background: transparent;
         border: transparent;
         svg {
-          color: blue;
+          color: var(--clr-text);
           font-size: 1rem;
         }
       }
@@ -146,7 +159,7 @@
     max-width: 50vw;
     text-align: center;
     height: 100%;
-    background: #fff;
+    background: var(--navbar);
     border-radius: 5px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 
@@ -159,8 +172,8 @@
 }
 
 .navbar {
-  background: white;
-  border-bottom: 1px solid #bdbdbd;
+  background: var(--navbar);
+  border-bottom: 1px solid var(--navbar-btm);
   box-shadow: 0px 1px 8px 1px rgba(0, 0, 0, 0.1);
 
   div {
@@ -175,6 +188,8 @@
     }
 
     a {
+      top: 4px;
+      position: relative;
       &:hover {
         opacity: 0.6;
       }
@@ -182,6 +197,13 @@
 
     svg {
       font-size: 2rem;
+      color: var(--clr-text);
+    }
+
+    span {
+      margin-left: 2rem;
+      font-size: 2rem;
+      cursor: pointer;
     }
   }
 }
@@ -211,7 +233,7 @@
       top: -3px;
       position: absolute;
       height: 3px;
-      background-color: blue;
+      background-color: var(--primary);
       animation-name: loader-animation;
       animation-duration: 2s;
       animation-iteration-count: infinite;
@@ -249,10 +271,6 @@
   .navbar {
     div {
       h2 {
-        font-size: 1.5rem;
-      }
-
-      svg {
         font-size: 1.5rem;
       }
     }

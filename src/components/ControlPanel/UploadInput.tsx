@@ -29,8 +29,6 @@ export default function UploadInput ({
 
   return (
     <article className="upload-input">
-      {/* NOTE: components should move outside of uploadInput */}
-
       <input
         ref={uploadInput}
         className="upload"

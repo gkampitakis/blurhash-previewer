@@ -14,6 +14,19 @@
     <title>Blurhash Previewer</title>
   </head>
   <body>
+    <script>
+      const matchDark = '(prefers-color-scheme:dark)';
+      const preferenceQuery =
+        window.matchMedia && window.matchMedia(matchDark).matches;
+      const storage = localStorage.getItem('dark-theme');
+      let theme = preferenceQuery ? 'dark-theme' : '';
+
+      if (storage) {
+        theme = JSON.parse(storage);
+      }
+
+      document.body.className = theme;
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>
