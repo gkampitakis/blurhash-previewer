@@ -1,21 +1,17 @@
-import React, { ChangeEvent, useState, useRef } from 'react';
+import React, { ChangeEvent, useState, useRef, memo } from 'react';
 import { TextInput } from '../General';
 import { Timeout } from '../../utils/';
 import { BiInfoCircle } from 'react-icons/bi';
 import { ComponentsTooltip } from '../General/Tooltips';
 
 interface ComponentsInputProps {
-  componentX: number;
-  componentY: number;
   loading: boolean;
   changeComponent: (value: number, type: "X" | "Y") => void;
 }
 
-export default function ComponentsInput ({ componentX, componentY, loading, changeComponent }: ComponentsInputProps) {
+function ComponentsInput ({ loading, changeComponent }: ComponentsInputProps) {
   const debouncerY = useRef<Timeout | undefined>(undefined);
   const debouncerX = useRef<Timeout | undefined>(undefined);
-
-
   const [x, setX] = useState('4');
   const [y, setY] = useState('4');
   const [bouncingX, setBouncingX] = useState(false);
@@ -102,3 +98,5 @@ export default function ComponentsInput ({ componentX, componentY, loading, chan
     </div>
   );
 }
+
+export default memo(ComponentsInput);

@@ -1,4 +1,4 @@
-import { isBlurhashValid, encode } from 'blurhash';
+import { isBlurhashValid } from 'blurhash';
 
 const loadImage = async (src: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
@@ -18,10 +18,10 @@ const getImageData = (image: CanvasImageSource) => {
   return context!.getImageData(0, 0, image.width as number, image.height as number);
 };
 
-export const encodeImageToBlurhash = async (imageUrl: string, componentX: number, componentY: number) => {
+export const encodeImageToBlurhash = async (imageUrl: string): Promise<[Uint8ClampedArray, number, number]> => {
   const image = await loadImage(imageUrl);
   const imageData = getImageData(image);
-  return encode(imageData.data, imageData.width, imageData.height, componentX, componentY);
+  return [imageData.data, imageData.width, imageData.height];
 };
 
 export { isBlurhashValid }; 

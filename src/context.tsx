@@ -7,9 +7,11 @@ import React, {
   useEffect,
   Dispatch,
   SetStateAction,
-  useRef
+  useRef,
+  useCallback
 } from 'react';
 import { notification, encodeImageToBlurhash } from './utils';
+import EncodeWorker from './encode.worker';
 
 const AppContext = createContext<DispatchActions & AppState & {
   blurhash: string;
@@ -58,6 +60,44 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
     componentY: 4
   });
 
+  useEffect(() => {
+    let worker: Worker;
+
+    async function effectWrapper () {
+      setLoading(true);
+      //@ts-ignore
+      worker = new EncodeWorker();
+
+      worker.addEventListener('message', (e: MessageEvent<{ hash: string }>) => {
+        const { hash } = e.data;
+        console.log(hash);
+        setBlurhash(hash)
+        setLoading(false);
+      });
+
+      worker.addEventListener('error', e => {
+        console.error(e);
+        notification('😵 Something went wrong', () => { })
+        setLoading(false);
+      });
+
+      const [data, width, height] = await encodeImageToBlurhash(url);
+      worker.postMessage({ payload: { data, width, height, componentX: appState.componentX, componentY: appState.componentY } });
+    }
+
+    if (!firstRender.current) {
+      effectWrapper();
+    } else {
+      firstRender.current = false;
+    }
+
+    return () => {
+      if (worker) {
+        worker.terminate();
+      }
+    }
+  }, [url, appState.componentX, appState.componentY]);
+
   function changeWidth (value: string, metric: 'px' | '%') {
     dispatch({ type: 'CHANGE_WIDTH', payload: { value: value, metric: metric } });
   }
@@ -79,7 +119,7 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
     });
   }
 
-  function changeComponent (value: number, type: 'X' | 'Y') {
+  const changeComponent = useCallback((value: number, type: 'X' | 'Y') => {
     dispatch({
       type: 'CHANGE_COMPONENT',
       payload: {
@@ -87,7 +127,7 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
         type
       }
     });
-  }
+  }, []);
 
   function changePunch (input: string) {
     let value = parseInt(input);
@@ -95,25 +135,6 @@ export const AppProvider = ({ children }: { children: ReactElement | ReactElemen
 
     setPunch(value);
   }
-
-  useEffect(() => {
-    async function encodeWrapper () {
-      setLoading(true);
-      encodeImageToBlurhash(url, appState.componentX, appState.componentY)
-        .then(hash => setBlurhash(hash))
-        .catch((error) => {
-          console.error(error);
-          notification('😵 Something went wrong', () => { })
-        })
-        .finally(() => setLoading(false));
-    }
-
-    if (!firstRender.current) {
-      encodeWrapper();
-    } else {
-      firstRender.current = false;
-    }
-  }, [url, appState.componentX, appState.componentY]);
 
   return (
     <AppContext.Provider value={{

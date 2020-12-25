@@ -1,5 +1,5 @@
 import React, { useRef, Dispatch, SetStateAction } from 'react';
-import { TextInput, LoadingIcon } from '../General';
+import { LoadingIcon } from '../General';
 
 interface UploadInputProps {
   loading: boolean;

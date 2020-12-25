@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, Dispatch, SetStateAction } from 'react';
+import React, { useState, useEffect, ChangeEvent, Dispatch, SetStateAction, memo } from 'react';
 import TextInput from '../General/TextInput';
 import { BiCopy } from 'react-icons/bi';
 import { notification, isBlurhashValid } from '../../utils';
@@ -9,7 +9,7 @@ interface BlurhashInputProps {
   setBlurhash: Dispatch<SetStateAction<string>>;
 }
 
-export default function BlurhashInput ({ blurhash, setBlurhash, loading }: BlurhashInputProps) {
+function BlurhashInput ({ blurhash, setBlurhash, loading }: BlurhashInputProps) {
   const [validHash, setValidHash] = useState(true);
   const [inputHash, setInputHash] = useState(blurhash);
   const [isToastShown, setIsToastShown] = useState(false);
@@ -54,3 +54,5 @@ export default function BlurhashInput ({ blurhash, setBlurhash, loading }: Blurh
     </>
   )
 }
+
+export default memo(BlurhashInput);

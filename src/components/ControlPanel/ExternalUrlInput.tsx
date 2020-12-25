@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useRef, Dispatch, SetStateAction, FormEvent } from 'react';
+import React, { useState, ChangeEvent, useRef, Dispatch, SetStateAction, FormEvent, memo } from 'react';
 import TextInput from '../General/TextInput';
 import { isValidURL, Timeout } from '../../utils';
 import { BiUpload } from 'react-icons/bi';
@@ -7,7 +7,7 @@ interface ExternalUrlInputProps {
   loading: boolean;
 };
 
-export default function ExternalUrlInput ({ setUrl, loading }: ExternalUrlInputProps) {
+function ExternalUrlInput ({ setUrl, loading }: ExternalUrlInputProps) {
   const [externalURL, setExternalUrl] = useState('');
   const [show, setShow] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -63,3 +63,5 @@ export default function ExternalUrlInput ({ setUrl, loading }: ExternalUrlInputP
     </form>
   );
 }
+
+export default memo(ExternalUrlInput);

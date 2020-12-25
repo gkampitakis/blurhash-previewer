@@ -17,8 +17,6 @@ export default function ControlPanel () {
     blurhash,
     resolutionX,
     resolutionY,
-    componentX,
-    componentY,
     setBlurhash,
     setUrl,
     changePunch,
@@ -27,7 +25,6 @@ export default function ControlPanel () {
     changeComponent,
     changeResolution
   } = useGlobalContext();
-
 
   return (
     <section className="cp">
@@ -88,8 +85,6 @@ export default function ControlPanel () {
           </div>
           <ComponentsInput
             changeComponent={changeComponent}
-            componentX={componentX}
-            componentY={componentY}
             loading={loading}
           />
         </div>
